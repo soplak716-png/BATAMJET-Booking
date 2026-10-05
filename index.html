@@ -80,7 +80,6 @@
       font-size: 16px;
       font-weight: bold;
       margin-top: 18px;
-      cursor: pointer;
     }
 
     .schedule {
@@ -181,7 +180,7 @@ async function supabase(path) {
   );
 
   if (!response.ok) {
-    throw new Error("Gagal mengambil data Supabase");
+    throw new Error("Supabase error");
   }
 
   return response.json();
@@ -204,8 +203,7 @@ async function loadRoutes() {
       const option =
         document.createElement("option");
 
-      option.value =
-        route.destination;
+      option.value = route.destination;
 
       option.textContent =
         "Dumai → " + route.destination;
@@ -255,39 +253,59 @@ async function cariJadwal() {
   message.innerHTML =
     '<div class="loading">Mencari jadwal...</div>';
 
+  results.style.display = "none";
+
 
   try {
 
-    /* Cari ID rute */
+    /*
+      Ambil semua jadwal pada tanggal yang dipilih.
+      Tidak menggunakan filter route_id.
+    */
 
-    const routes = await supabase(
-      "routes?origin=eq.Dumai&destination=eq." +
-      encodeURIComponent(destination) +
-      "&active=eq.true&select=id"
+    const schedules = await supabase(
+      "schedules?departure_date=eq." +
+      date +
+      "&status=eq.available&select=route_id,departure_date,departure_time,price,available_seats,status"
     );
 
 
-    if (!routes.length) {
+    /*
+      Ambil semua rute Dumai.
+    */
 
-      throw new Error("Rute tidak ditemukan");
+    const routes = await supabase(
+      "routes?origin=eq.Dumai&active=eq.true&select=id,destination"
+    );
+
+
+    /*
+      Cari ID rute sesuai tujuan.
+    */
+
+    const route =
+      routes.find(
+        r => r.destination === destination
+      );
+
+
+    if (!route) {
+
+      throw new Error(
+        "Rute tujuan tidak ditemukan"
+      );
 
     }
 
 
-    const routeId =
-      routes[0].id;
+    /*
+      Cocokkan jadwal dengan route_id.
+    */
 
-
-    /* Cari jadwal */
-
-    const schedules = await supabase(
-      "schedules?route_id=eq." +
-      routeId +
-      "&departure_date=eq." +
-      date +
-      "&status=eq.available" +
-      "&select=departure_date,departure_time,price,available_seats,status"
-    );
+    const filteredSchedules =
+      schedules.filter(
+        s => String(s.route_id) === String(route.id)
+      );
 
 
     message.innerHTML = "";
@@ -297,21 +315,16 @@ async function cariJadwal() {
     list.innerHTML = "";
 
 
-    /* Tidak ada jadwal */
-
-    if (!schedules.length) {
+    if (!filteredSchedules.length) {
 
       list.innerHTML =
         "<p>Tidak ada jadwal pada tanggal tersebut.</p>";
 
       return;
-
     }
 
 
-    /* Tampilkan jadwal */
-
-    schedules.forEach(schedule => {
+    filteredSchedules.forEach(schedule => {
 
       const div =
         document.createElement("div");
@@ -320,13 +333,13 @@ async function cariJadwal() {
         "schedule";
 
 
-      const waktu =
+      const time =
         schedule.departure_time
           ? schedule.departure_time.slice(0, 5)
           : "-";
 
 
-      const harga =
+      const price =
         Number(schedule.price)
           .toLocaleString("id-ID");
 
@@ -342,11 +355,11 @@ async function cariJadwal() {
         </p>
 
         <p>
-          Berangkat: ${waktu}
+          Berangkat: ${time}
         </p>
 
         <div class="price">
-          Rp ${harga}
+          Rp ${price}
         </div>
 
         <button onclick="booking()">
@@ -363,13 +376,10 @@ async function cariJadwal() {
 
   } catch (error) {
 
-    console.error(
-      "ERROR JADWAL:",
-      error
-    );
+    console.error(error);
 
     message.innerHTML =
-      '<div class="error">Gagal mengambil jadwal. Silakan coba lagi.</div>';
+      '<div class="error">Gagal mengambil jadwal dari database.</div>';
 
   }
 
