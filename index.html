@@ -3,110 +3,130 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Batam Jet Booking</title>
 
   <style>
     * {
       box-sizing: border-box;
-      font-family: Arial, sans-serif;
     }
 
     body {
       margin: 0;
+      font-family: Arial, sans-serif;
       background: #f4f7fb;
       color: #172033;
     }
 
     header {
-      background: #075985;
+      background: #0b7a75;
       color: white;
-      padding: 28px 20px;
-      border-radius: 0 0 24px 24px;
+      padding: 24px 20px;
+      text-align: center;
     }
 
     header h1 {
-      margin: 0 0 6px;
+      margin: 0;
       font-size: 26px;
     }
 
     header p {
-      margin: 0;
-      opacity: .9;
+      margin: 8px 0 0;
+      opacity: 0.9;
     }
 
-    main {
+    .container {
       max-width: 600px;
-      margin: auto;
-      padding: 20px;
+      margin: 25px auto;
+      padding: 0 16px;
     }
 
     .card {
       background: white;
       padding: 20px;
-      border-radius: 18px;
-      margin-bottom: 18px;
-      box-shadow: 0 5px 20px #0000000d;
-    }
-
-    h2 {
-      font-size: 19px;
-      margin-top: 0;
+      border-radius: 16px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
     }
 
     label {
       display: block;
+      margin-top: 15px;
+      margin-bottom: 7px;
       font-weight: bold;
-      font-size: 13px;
-      margin: 15px 0 7px;
+    }
+
+    select,
+    input,
+    button {
+      width: 100%;
+      padding: 13px;
+      border-radius: 10px;
+      font-size: 16px;
     }
 
     select,
     input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #d5dce5;
-      border-radius: 12px;
+      border: 1px solid #d5dbe5;
       background: white;
-      font-size: 15px;
     }
 
     button {
-      width: 100%;
-      padding: 15px;
-      border: 0;
-      border-radius: 12px;
-      background: #075985;
+      margin-top: 20px;
+      border: none;
+      background: #0b7a75;
       color: white;
-      font-size: 16px;
       font-weight: bold;
-      margin-top: 18px;
+      cursor: pointer;
     }
 
-    .schedule {
-      border: 1px solid #dce3ec;
-      padding: 16px;
-      border-radius: 14px;
-      margin-top: 12px;
+    button:active {
+      transform: scale(0.98);
     }
 
-    .price {
-      font-size: 19px;
-      font-weight: bold;
-      color: #075985;
-      margin-top: 8px;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 15px;
+    #message {
+      margin-top: 15px;
     }
 
     .error {
-      background: #fff1f2;
-      color: #b91c1c;
+      background: #ffe7e7;
+      color: #b00020;
       padding: 12px;
       border-radius: 10px;
+    }
+
+    .success {
+      background: #e7f8ef;
+      color: #087443;
+      padding: 12px;
+      border-radius: 10px;
+    }
+
+    #results {
+      margin-top: 20px;
+    }
+
+    .schedule {
+      border: 1px solid #e0e5ec;
+      border-radius: 14px;
+      padding: 16px;
       margin-top: 12px;
+      background: #fff;
+    }
+
+    .schedule strong {
+      font-size: 18px;
+    }
+
+    .price {
+      font-size: 22px;
+      font-weight: bold;
+      color: #0b7a75;
+      margin-top: 10px;
+    }
+
+    .small {
+      color: #667085;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -114,23 +134,23 @@
 <body>
 
 <header>
-  <h1>Batam Jet</h1>
-  <p>Booking tiket kapal</p>
+  <h1>Batam Jet Booking</h1>
+  <p>Booking tiket kapal dari Dumai</p>
 </header>
 
-<main>
+<div class="container">
 
   <div class="card">
 
     <h2>Cari Jadwal</h2>
 
-    <label>Tujuan</label>
+    <label for="destination">Tujuan</label>
 
     <select id="destination">
       <option value="">Pilih tujuan</option>
     </select>
 
-    <label>Tanggal</label>
+    <label for="date">Tanggal</label>
 
     <input
       type="date"
@@ -144,27 +164,24 @@
 
     <div id="message"></div>
 
-  </div>
-
-
-  <div class="card" id="results" style="display:none">
-
-    <h2>Jadwal Tersedia</h2>
-
-    <div id="scheduleList"></div>
+    <div id="results" style="display:none;">
+      <h3>Jadwal Tersedia</h3>
+      <div id="scheduleList"></div>
+    </div>
 
   </div>
 
-</main>
-
+</div>
 
 <script>
 
-const SUPABASE_URL =
-  "https://iymqjdfeadmqvxjanndq.supabase.co";
+const SUPABASE_URL = "https://iymqjdfeadmqvxjanndq.supabase.co";
 
-const SUPABASE_KEY =
-  "sb_publishable__ihz_ZnsNjw8YxZyMA-eeg_TQQlWF89";
+/*
+  MASUKKAN PUBLISHABLE KEY SUPABASE KAMU
+  yang sebelumnya sudah kamu gunakan.
+*/
+const SUPABASE_KEY = "sb_publishable__ihz_ZnsNjw8YxZyMA-eeg_TQQlWF89";
 
 
 async function supabase(path) {
@@ -172,6 +189,7 @@ async function supabase(path) {
   const response = await fetch(
     SUPABASE_URL + "/rest/v1/" + path,
     {
+      method: "GET",
       headers: {
         "apikey": SUPABASE_KEY,
         "Authorization": "Bearer " + SUPABASE_KEY
@@ -179,13 +197,18 @@ async function supabase(path) {
     }
   );
 
+  const text = await response.text();
+
   if (!response.ok) {
-    throw new Error("Supabase error");
+    console.error("Supabase error:", text);
+    throw new Error(text);
   }
 
-  return response.json();
+  return text ? JSON.parse(text) : [];
 }
 
+
+/* LOAD TUJUAN */
 
 async function loadRoutes() {
 
@@ -217,11 +240,14 @@ async function loadRoutes() {
     console.error(error);
 
     document.getElementById("message").innerHTML =
-      '<div class="error">Gagal mengambil data rute.</div>';
+      '<div class="error">Gagal mengambil daftar tujuan.</div>';
 
   }
+
 }
 
+
+/* CARI JADWAL */
 
 async function cariJadwal() {
 
@@ -251,27 +277,28 @@ async function cariJadwal() {
 
 
   message.innerHTML =
-    '<div class="loading">Mencari jadwal...</div>';
+    '<div class="success">Mencari jadwal...</div>';
 
   results.style.display = "none";
+
+  list.innerHTML = "";
 
 
   try {
 
     /*
       Ambil semua jadwal pada tanggal yang dipilih.
-      Tidak menggunakan filter route_id.
     */
 
     const schedules = await supabase(
       "schedules?departure_date=eq." +
-      date +
-      "&status=eq.available&select=route_id,departure_date,departure_time,price,available_seats,status"
+      encodeURIComponent(date) +
+      "&status=eq.available&select=id,route_id,departure_date,departure_time,price,available_seats,status"
     );
 
 
     /*
-      Ambil semua rute Dumai.
+      Ambil semua rute aktif dari Dumai.
     */
 
     const routes = await supabase(
@@ -280,31 +307,33 @@ async function cariJadwal() {
 
 
     /*
-      Cari ID rute sesuai tujuan.
+      Cari route_id berdasarkan tujuan.
     */
 
-    const route =
+    const selectedRoute =
       routes.find(
-        r => r.destination === destination
+        route => route.destination === destination
       );
 
 
-    if (!route) {
+    if (!selectedRoute) {
 
       throw new Error(
-        "Rute tujuan tidak ditemukan"
+        "Rute tujuan tidak ditemukan."
       );
 
     }
 
 
     /*
-      Cocokkan jadwal dengan route_id.
+      Cari jadwal yang route_id-nya sama.
     */
 
-    const filteredSchedules =
-      schedules.filter(
-        s => String(s.route_id) === String(route.id)
+    const schedule =
+      schedules.find(
+        item =>
+          String(item.route_id) ===
+          String(selectedRoute.id)
       );
 
 
@@ -312,50 +341,49 @@ async function cariJadwal() {
 
     results.style.display = "block";
 
-    list.innerHTML = "";
 
-
-    if (!filteredSchedules.length) {
+    if (!schedule) {
 
       list.innerHTML =
         "<p>Tidak ada jadwal pada tanggal tersebut.</p>";
 
       return;
+
     }
 
 
-    filteredSchedules.forEach(schedule => {
-
-      const div =
-        document.createElement("div");
-
-      div.className =
-        "schedule";
+    const time =
+      schedule.departure_time
+        ? schedule.departure_time.substring(0, 5)
+        : "-";
 
 
-      const time =
-        schedule.departure_time
-          ? schedule.departure_time.slice(0, 5)
-          : "-";
+    const price =
+      Number(schedule.price)
+        .toLocaleString("id-ID");
 
 
-      const price =
-        Number(schedule.price)
-          .toLocaleString("id-ID");
+    list.innerHTML = `
 
-
-      div.innerHTML = `
+      <div class="schedule">
 
         <strong>
           Dumai → ${destination}
         </strong>
 
         <p>
+          <span class="small">Operator</span><br>
           Batam Jet
         </p>
 
         <p>
-          Berangkat: ${time}
+          <span class="small">Tanggal</span><br>
+          ${schedule.departure_date}
+        </p>
+
+        <p>
+          <span class="small">Jam berangkat</span><br>
+          ${time}
         </p>
 
         <div class="price">
@@ -366,20 +394,16 @@ async function cariJadwal() {
           Lanjut Booking
         </button>
 
-      `;
+      </div>
 
-
-      list.appendChild(div);
-
-    });
-
+    `;
 
   } catch (error) {
 
     console.error(error);
 
     message.innerHTML =
-      '<div class="error">Gagal mengambil jadwal dari database.</div>';
+      '<div class="error">Gagal mengambil jadwal. Silakan coba lagi.</div>';
 
   }
 
