@@ -157,6 +157,61 @@ async function cariJadwal() {
       '<div class="error">Gagal mengambil jadwal.</div>';
   }
 }
+  if (!destination || !date) {
+    message.innerHTML =
+      '<div class="error">Pilih tujuan dan tanggal terlebih dahulu.</div>';
+    return;
+  }
+
+  message.innerHTML =
+    '<div class="loading">Mencari jadwal...</div>';
+
+  try {
+    const schedules = await supabase(
+      "schedules?route_id=in.(" +
+      (await supabase(
+        "routes?origin=eq.Dumai&destination=eq." +
+        encodeURIComponent(destination) +
+        "&active=eq.true&select=id"
+      )).map(r => r.id).join(",") +
+      ")&departure_date=eq." +
+      date +
+      "&status=eq.available&select=departure_date,departure_time,price,available_seats"
+    );
+
+    message.innerHTML = "";
+    results.style.display = "block";
+    list.innerHTML = "";
+
+    if (!schedules.length) {
+      list.innerHTML =
+        "<p>Tidak ada jadwal pada tanggal tersebut.</p>";
+      return;
+    }
+
+    schedules.forEach(schedule => {
+      const div = document.createElement("div");
+      div.className = "schedule";
+
+      div.innerHTML = `
+        <strong>Dumai → ${destination}</strong>
+        <p>Batam Jet</p>
+        <p>Berangkat: ${schedule.departure_time.slice(0,5)}</p>
+        <div class="price">
+          Rp ${Number(schedule.price).toLocaleString("id-ID")}
+        </div>
+        <button onclick="booking()">Lanjut Booking</button>
+      `;
+
+      list.appendChild(div);
+    });
+
+  } catch (error) {
+    console.error(error);
+    message.innerHTML =
+      '<div class="error">Gagal mengambil jadwal.</div>';
+  }
+}
 
   if (!destination || !date) {
     message.innerHTML =
