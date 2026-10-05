@@ -4,235 +4,171 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Batam Jet Booking</title>
-
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      background: #f4f7fb;
-      color: #172033;
-    }
-
-    .header {
-      background: #075985;
-      color: white;
-      padding: 22px 20px;
-      border-radius: 0 0 24px 24px;
-    }
-
-    .header h1 {
-      font-size: 25px;
-      margin-bottom: 6px;
-    }
-
-    .header p {
-      font-size: 14px;
-      opacity: .9;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 18px;
-      padding: 20px;
-      margin-bottom: 18px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.07);
-    }
-
-    .card h2 {
-      font-size: 19px;
-      margin-bottom: 16px;
-    }
-
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: bold;
-      margin: 14px 0 7px;
-    }
-
-    select,
-    input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #d6dce5;
-      border-radius: 12px;
-      background: white;
-      font-size: 15px;
-      outline: none;
-    }
-
-    select:focus,
-    input:focus {
-      border-color: #075985;
-    }
-
-    .schedule {
-      border: 1px solid #dce3ec;
-      border-radius: 14px;
-      padding: 15px;
-      margin-top: 12px;
-    }
-
-    .schedule strong {
-      display: block;
-      font-size: 17px;
-      margin-bottom: 5px;
-    }
-
-    .price {
-      color: #075985;
-      font-weight: bold;
-      font-size: 18px;
-      margin-top: 7px;
-    }
-
-    .button {
-      width: 100%;
-      border: none;
-      padding: 15px;
-      margin-top: 18px;
-      border-radius: 12px;
-      background: #075985;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    .button:active {
-      transform: scale(.98);
-    }
-
-    .notice {
-      background: #eef6ff;
-      padding: 13px;
-      border-radius: 12px;
-      font-size: 13px;
-      line-height: 1.5;
-      margin-top: 15px;
-    }
-
-    .footer {
-      text-align: center;
-      padding: 25px;
-      font-size: 12px;
-      color: #718096;
-    }
+    *{box-sizing:border-box;font-family:Arial,sans-serif}
+    body{margin:0;background:#f4f7fb;color:#172033}
+    header{background:#075985;color:white;padding:28px 20px;border-radius:0 0 24px 24px}
+    header h1{margin:0 0 6px;font-size:26px}
+    header p{margin:0;opacity:.9}
+    main{max-width:600px;margin:auto;padding:20px}
+    .card{background:white;padding:20px;border-radius:18px;margin-bottom:18px;box-shadow:0 5px 20px #0000000d}
+    h2{font-size:19px;margin-top:0}
+    label{display:block;font-weight:bold;font-size:13px;margin:15px 0 7px}
+    select,input{width:100%;padding:14px;border:1px solid #d5dce5;border-radius:12px;background:white;font-size:15px}
+    button{width:100%;padding:15px;border:0;border-radius:12px;background:#075985;color:white;font-size:16px;font-weight:bold;margin-top:18px}
+    .schedule{border:1px solid #dce3ec;padding:16px;border-radius:14px;margin-top:12px}
+    .price{font-size:19px;font-weight:bold;color:#075985;margin-top:8px}
+    .loading{text-align:center;padding:15px}
+    .error{background:#fff1f2;color:#b91c1c;padding:12px;border-radius:10px;margin-top:12px}
   </style>
 </head>
 
 <body>
 
-  <header class="header">
-    <div class="container">
-      <h1>Batam Jet</h1>
-      <p>Booking tiket kapal secara mudah dan cepat</p>
-    </div>
-  </header>
+<header>
+  <h1>Batam Jet</h1>
+  <p>Booking tiket kapal</p>
+</header>
 
-  <main class="container">
+<main>
 
-    <div class="card">
-      <h2>Cari Jadwal Kapal</h2>
+  <div class="card">
+    <h2>Cari Jadwal</h2>
 
-      <label for="destination">Tujuan</label>
-      <select id="destination">
-        <option value="">Pilih tujuan</option>
-        <option value="Bengkalis">Dumai → Bengkalis</option>
-        <option value="Selat Panjang">Dumai → Selat Panjang</option>
-        <option value="Tanjung Balai Karimun">
-          Dumai → Tanjung Balai Karimun
-        </option>
-        <option value="Batam">Dumai → Batam</option>
-        <option value="Tanjung Pinang">
-          Dumai → Tanjung Pinang
-        </option>
-      </select>
+    <label>Tujuan</label>
+    <select id="destination">
+      <option value="">Pilih tujuan</option>
+    </select>
 
-      <label for="date">Tanggal keberangkatan</label>
-      <input type="date" id="date" value="2026-10-05">
+    <label>Tanggal</label>
+    <input type="date" id="date" value="2026-10-05">
 
-      <button class="button" onclick="searchSchedule()">
-        Cari Jadwal
-      </button>
-    </div>
+    <button onclick="cariJadwal()">Cari Jadwal</button>
 
-    <div class="card" id="result" style="display:none;">
-      <h2>Jadwal Tersedia</h2>
-
-      <div class="schedule">
-        <strong id="route"></strong>
-        <div>Batam Jet</div>
-        <div>Berangkat pukul 06:45</div>
-        <div class="price" id="price"></div>
-
-        <button class="button" onclick="booking()">
-          Lanjut Booking
-        </button>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Informasi</h2>
-
-      <div class="notice">
-        Jadwal dan harga yang ditampilkan merupakan data yang
-        telah dimasukkan ke sistem booking.
-      </div>
-    </div>
-
-  </main>
-
-  <div class="footer">
-    © 2026 Batam Jet Booking
+    <div id="message"></div>
   </div>
 
-  <script>
-    const prices = {
-      "Bengkalis": 140000,
-      "Selat Panjang": 270000,
-      "Tanjung Balai Karimun": 470000,
-      "Batam": 590000,
-      "Tanjung Pinang": 710000
-    };
+  <div class="card" id="results" style="display:none">
+    <h2>Jadwal Tersedia</h2>
+    <div id="scheduleList"></div>
+  </div>
 
-    function searchSchedule() {
-      const destination =
-        document.getElementById("destination").value;
+</main>
 
-      const date =
-        document.getElementById("date").value;
+<script>
+const SUPABASE_URL = "https://iymqjdfeadmqvxjanndq.supabase.co/rest/v1/";
+const SUPABASE_KEY = "sb_publishable__ihz_ZnsNjw8YxZyMA-eeg_TQQlWF89";
 
-      if (!destination || !date) {
-        alert("Silakan pilih tujuan dan tanggal.");
-        return;
-      }
+async function supabase(path) {
+  const response = await fetch(SUPABASE_URL + "/rest/v1/" + path, {
+    headers: {
+      "apikey": SUPABASE_KEY,
+      "Authorization": "Bearer " + SUPABASE_KEY
+    }
+  });
 
-      document.getElementById("route").textContent =
-        "Dumai → " + destination;
+  if (!response.ok) {
+    throw new Error("Gagal mengambil data Supabase");
+  }
 
-      document.getElementById("price").textContent =
-        "Rp " + prices[destination].toLocaleString("id-ID");
+  return response.json();
+}
 
-      document.getElementById("result").style.display = "block";
+async function loadRoutes() {
+  const destination = document.getElementById("destination");
+
+  try {
+    const routes = await supabase(
+      "routes?origin=eq.Dumai&active=eq.true&select=id,destination&order=destination"
+    );
+
+    routes.forEach(route => {
+      const option = document.createElement("option");
+      option.value = route.destination;
+      option.textContent = "Dumai → " + route.destination;
+      destination.appendChild(option);
+    });
+
+  } catch (error) {
+    document.getElementById("message").innerHTML =
+      '<div class="error">Gagal mengambil data rute.</div>';
+  }
+}
+
+async function cariJadwal() {
+  const destination = document.getElementById("destination").value;
+  const date = document.getElementById("date").value;
+  const message = document.getElementById("message");
+  const results = document.getElementById("results");
+  const list = document.getElementById("scheduleList");
+
+  if (!destination || !date) {
+    message.innerHTML =
+      '<div class="error">Pilih tujuan dan tanggal terlebih dahulu.</div>';
+    return;
+  }
+
+  message.innerHTML = '<div class="loading">Mencari jadwal...</div>';
+
+  try {
+    const routes = await supabase(
+      "routes?origin=eq.Dumai&destination=eq." +
+      encodeURIComponent(destination) +
+      "&active=eq.true&select=id"
+    );
+
+    if (!routes.length) {
+      throw new Error("Rute tidak ditemukan");
     }
 
-    function booking() {
-      alert(
-        "Halaman booking akan kita aktifkan pada tahap berikutnya."
-      );
+    const routeId = routes[0].id;
+
+    const schedules = await supabase(
+      "schedules?route_id=eq." +
+      routeId +
+      "&departure_date=eq." +
+      date +
+      "&status=eq.available&select=departure_date,departure_time,price,available_seats"
+    );
+
+    message.innerHTML = "";
+    results.style.display = "block";
+    list.innerHTML = "";
+
+    if (!schedules.length) {
+      list.innerHTML = "<p>Tidak ada jadwal pada tanggal tersebut.</p>";
+      return;
     }
-  </script>
+
+    schedules.forEach(schedule => {
+      const div = document.createElement("div");
+      div.className = "schedule";
+
+      div.innerHTML = `
+        <strong>Dumai → ${destination}</strong>
+        <p>Batam Jet</p>
+        <p>Berangkat: ${schedule.departure_time.slice(0,5)}</p>
+        <div class="price">
+          Rp ${Number(schedule.price).toLocaleString("id-ID")}
+        </div>
+        <button onclick="booking()">Lanjut Booking</button>
+      `;
+
+      list.appendChild(div);
+    });
+
+  } catch (error) {
+    message.innerHTML =
+      '<div class="error">Gagal mengambil jadwal. Periksa koneksi database.</div>';
+  }
+}
+
+function booking() {
+  alert("Form data penumpang akan kita aktifkan pada tahap berikutnya.");
+}
+
+loadRoutes();
+</script>
 
 </body>
 </html>
