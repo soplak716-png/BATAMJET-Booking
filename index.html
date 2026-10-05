@@ -220,31 +220,78 @@ async function loadRoutes() {
 
 
 async function cariJadwal() {
-
-  const destination =
-    document.getElementById("destination").value;
-
-  const date =
-    document.getElementById("date").value;
-
-  const message =
-    document.getElementById("message");
-
-  const results =
-    document.getElementById("results");
-
-  const list =
-    document.getElementById("scheduleList");
-
+  const destination = document.getElementById("destination").value;
+  const date = document.getElementById("date").value;
+  const message = document.getElementById("message");
+  const results = document.getElementById("results");
+  const list = document.getElementById("scheduleList");
 
   if (!destination || !date) {
-
     message.innerHTML =
       '<div class="error">Pilih tujuan dan tanggal terlebih dahulu.</div>';
-
     return;
   }
 
+  message.innerHTML =
+    '<div class="loading">Mencari jadwal...</div>';
+
+  try {
+    const routes = await supabase(
+      "routes?origin=eq.Dumai&destination=eq." +
+      encodeURIComponent(destination) +
+      "&active=eq.true&select=id"
+    );
+
+    if (routes.length === 0) {
+      throw new Error("Rute tidak ditemukan");
+    }
+
+    const routeId = routes[0].id;
+
+    const schedules = await supabase(
+      "schedules?route_id=eq." +
+      routeId +
+      "&departure_date=eq." +
+      date +
+      "&select=departure_date,departure_time,price,available_seats,status"
+    );
+
+    message.innerHTML = "";
+    results.style.display = "block";
+    list.innerHTML = "";
+
+    if (schedules.length === 0) {
+      list.innerHTML =
+        "<p>Tidak ada jadwal pada tanggal tersebut.</p>";
+      return;
+    }
+
+    schedules.forEach(schedule => {
+      const div = document.createElement("div");
+      div.className = "schedule";
+
+      div.innerHTML = `
+        <strong>Dumai → ${destination}</strong>
+        <p>Batam Jet</p>
+        <p>Berangkat: ${schedule.departure_time.slice(0, 5)}</p>
+        <div class="price">
+          Rp ${Number(schedule.price).toLocaleString("id-ID")}
+        </div>
+        <button onclick="booking()">
+          Lanjut Booking
+        </button>
+      `;
+
+      list.appendChild(div);
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    message.innerHTML =
+      '<div class="error">Gagal mengambil jadwal.</div>';
+  }
+}
 
   message.innerHTML =
     '<div class="loading">Mencari jadwal...</div>';
