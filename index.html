@@ -404,7 +404,6 @@ async function cariJadwal() {
     '<div class="success">Mencari jadwal...</div>';
 
   results.style.display = "none";
-
   list.innerHTML = "";
 
 
@@ -421,11 +420,10 @@ async function cariJadwal() {
 
 
     message.innerHTML = "";
-
     results.style.display = "block";
 
 
-    if (!schedules.length) {
+    if (!schedules || schedules.length === 0) {
 
       list.innerHTML =
         "<p>Tidak ada jadwal pada tanggal tersebut.</p>";
@@ -443,7 +441,7 @@ async function cariJadwal() {
 
 
       const price =
-        Number(schedule.price)
+        Number(schedule.price || 0)
           .toLocaleString("id-ID");
 
 
@@ -466,11 +464,6 @@ async function cariJadwal() {
         </strong>
 
         <p>
-          <span class="small">Operator</span><br>
-          Dumai Line
-        </p>
-
-        <p>
           <span class="small">Tanggal</span><br>
           ${schedule.departure_date}
         </p>
@@ -489,29 +482,35 @@ async function cariJadwal() {
           Rp ${price}
         </div>
 
-        <button onclick='booking(${JSON.stringify(schedule)})'>
+        <button>
           Lanjut Booking
         </button>
 
       `;
 
 
+      div.querySelector("button").onclick = function() {
+
+        booking(schedule);
+
+      };
+
+
       list.appendChild(div);
 
     });
 
+
   } catch (error) {
 
-    console.error(error);
+    console.error("ERROR JADWAL:", error);
 
     message.innerHTML =
-      '<div class="error">Gagal mengambil jadwal. Silakan coba lagi.</div>';
+      '<div class="error">Gagal mengambil jadwal.</div>';
 
   }
 
 }
-
-
 /* =========================
    LANJUT BOOKING
 ========================= */
