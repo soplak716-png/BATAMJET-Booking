@@ -522,10 +522,30 @@ async function cariJadwal() {
       yang sudah kita pasang di database.
     */
 
-    availableSeats =
-      Number(
-        schedule.available_seats
-      );
+    const seatResponse = await fetch(
+  SUPABASE_URL + "/rest/v1/rpc/get_available_seats",
+  {
+    method: "POST",
+    headers: {
+      "apikey": SUPABASE_KEY,
+      "Authorization": "Bearer " + SUPABASE_KEY,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      schedule_uuid: schedule.id
+    })
+  }
+);
+
+if (!seatResponse.ok) {
+  throw new Error(
+    await seatResponse.text()
+  );
+}
+
+availableSeats = Number(
+  await seatResponse.json()
+);
 
 
     const time =
