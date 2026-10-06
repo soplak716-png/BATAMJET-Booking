@@ -817,31 +817,39 @@ function kembali(){
 KONFIRMASI BOOKING
 ================================ */
 
-function simpanBooking(){
+async function simpanBooking(){
 
   const name =
-  document.getElementById("customerName").value.trim();
+    document.getElementById("customerName").value.trim();
 
   const phone =
-  document.getElementById("customerPhone").value.trim();
+    document.getElementById("customerPhone").value.trim();
 
   const email =
-  document.getElementById("customerEmail").value.trim();
+    document.getElementById("customerEmail").value.trim();
 
   const count =
-  Number(
-    document.getElementById("passengerCount").value
-  );
-
+    Number(
+      document.getElementById("passengerCount").value
+    );
 
   const message =
-  document.getElementById("bookingMessage");
+    document.getElementById("bookingMessage");
+
+
+  if(!selectedSchedule){
+
+    message.innerHTML =
+      '<div class="error">Jadwal belum dipilih.</div>';
+
+    return;
+  }
 
 
   if(!name || !phone){
 
     message.innerHTML =
-    '<div class="error">Nama pemesan dan nomor WhatsApp wajib diisi.</div>';
+      '<div class="error">Nama pemesan dan nomor WhatsApp wajib diisi.</div>';
 
     return;
   }
@@ -850,105 +858,186 @@ function simpanBooking(){
   if(!count){
 
     message.innerHTML =
-    '<div class="error">Pilih jumlah penumpang.</div>';
+      '<div class="error">Pilih jumlah penumpang.</div>';
 
     return;
   }
 
 
   const passengerNames =
-  [...document.querySelectorAll(".passenger-name")];
+    [...document.querySelectorAll(".passenger-name")];
 
   const passengerIdTypes =
-  [...document.querySelectorAll(".passenger-id-type")];
+    [...document.querySelectorAll(".passenger-id-type")];
 
   const passengerIdNumbers =
-  [...document.querySelectorAll(".passenger-id-number")];
+    [...document.querySelectorAll(".passenger-id-number")];
+
+
+  const passengers = [];
 
 
   for(let i=0;i<count;i++){
 
+    const passengerName =
+      passengerNames[i].value.trim();
+
+    const idType =
+      passengerIdTypes[i].value;
+
+    const idNumber =
+      passengerIdNumbers[i].value.trim();
+
+
     if(
-      !passengerNames[i].value.trim() ||
-      !passengerIdTypes[i].value ||
-      !passengerIdNumbers[i].value.trim()
+      !passengerName ||
+      !idType ||
+      !idNumber
     ){
 
       message.innerHTML =
-      '<div class="error">Lengkapi semua data penumpang terlebih dahulu.</div>';
+        '<div class="error">Lengkapi semua data penumpang terlebih dahulu.</div>';
 
       return;
     }
 
+
+    passengers.push({
+      name: passengerName,
+      id_type: idType,
+      id_number: idNumber
+    });
+
   }
 
 
-  /*
-    BELUM MENYIMPAN KE DATABASE.
-
-    Untuk keamanan, proses booking asli nanti
-    harus melalui backend / Supabase Edge Function
-    dan pembayaran Midtrans.
-
-    Untuk sekarang kita hanya menampilkan
-    data konfirmasi.
-  */
+  const button =
+    document.querySelector(
+      '#bookingCard button[onclick="simpanBooking()"]'
+    );
 
 
-  const bookingCode =
-  "BJ" +
-  Date.now()
-  .toString()
-  .slice(-8);
+  if(button){
+
+    button.disabled = true;
+    button.textContent = "Menyimpan Booking...";
+
+  }
 
 
-  const total =
-  Number(selectedSchedule.price) * count;
+  message.innerHTML =
+    '<div class="success">Menyimpan booking...</div>';
 
 
-  document.getElementById("bookingCard")
-  .classList.add("hidden");
+  try{
+
+    const result =
+      await supabase(
+        "rpc/create_booking",
+        {
+          method:"POST",
+
+          body:JSON.stringify({
+            p_schedule_id:
+              selectedSchedule.id,
+
+            p_customer_name:
+              name,
+
+            p_customer_phone:
+              phone,
+
+            p_customer_email:
+              email,
+
+            p_passengers:
+              passengers
+          })
+        }
+      );
 
 
-  document.getElementById("successCard")
-  .classList.remove("hidden");
+    const booking =
+      Array.isArray(result)
+      ? result[0]
+      : result;
 
 
-  document.getElementById("bookingCode").textContent =
-  bookingCode;
+    if(!booking || !booking.success){
+
+      throw new Error(
+        "Booking gagal dibuat."
+      );
+
+    }
 
 
-  document.getElementById("successDetail").innerHTML = `
+    document.getElementById("bookingCard")
+      .classList.add("hidden");
 
-    <p>
-      <strong>Rute:</strong>
-      Dumai →
-      ${document.getElementById("destination").value}
-    </p>
+    document.getElementById("successCard")
+      .classList.remove("hidden");
 
-    <p>
-      <strong>Tanggal:</strong>
-      ${selectedSchedule.departure_date}
-    </p>
 
-    <p>
-      <strong>Jumlah penumpang:</strong>
-      ${count}
-    </p>
+    document.getElementById("bookingCode")
+      .textContent =
+      booking.booking_code;
 
-    <p>
-      <strong>Total:</strong>
-      Rp ${total.toLocaleString("id-ID")}
-    </p>
 
-    <div class="error">
-      <strong>Catatan:</strong><br>
-      Ini masih tahap tampilan booking.
-      Pembayaran dan penyimpanan booking ke database
-      akan kita aktifkan pada tahap berikutnya.
-    </div>
+    document.getElementById("successDetail")
+      .innerHTML = `
 
-  `;
+        <p>
+          <strong>Rute:</strong><br>
+          Dumai →
+          ${document.getElementById("destination").value}
+        </p>
+
+        <p>
+          <strong>Tanggal:</strong><br>
+          ${selectedSchedule.departure_date}
+        </p>
+
+        <p>
+          <strong>Jumlah penumpang:</strong><br>
+          ${booking.passenger_count}
+        </p>
+
+        <p>
+          <strong>Total:</strong><br>
+          Rp ${Number(
+            booking.total_amount
+          ).toLocaleString("id-ID")}
+        </p>
+
+        <div class="success">
+          Booking sudah tersimpan di sistem.
+        </div>
+
+      `;
+
+
+  }catch(error){
+
+    console.error(error);
+
+
+    message.innerHTML =
+      '<div class="error">' +
+      'Booking gagal disimpan. ' +
+      'Silakan coba lagi.' +
+      '</div>';
+
+
+    if(button){
+
+      button.disabled = false;
+      button.textContent =
+        "Konfirmasi Booking";
+
+    }
+
+  }
 
 }
 
