@@ -312,47 +312,35 @@ LOAD TUJUAN
 Mengambil langsung dari schedules
 ================================ */
 
-async function loadRoutes(){
+  async function loadRoutes(){
 
   const destination =
     document.getElementById("destination");
 
   try{
 
-    const schedules = await supabase(
-      "schedules?departure_date=eq.2026-10-05&status=eq.available&select=destination"
+    const routes = await supabase(
+      "routes?origin=eq.Dumai&active=eq.true&select=id,destination"
     );
 
-    const tujuan = [];
+    destination.innerHTML =
+      '<option value="">Pilih tujuan</option>';
 
-    schedules.forEach(row=>{
-
-      if(
-        row.destination &&
-        !tujuan.includes(row.destination)
-      ){
-        tujuan.push(row.destination);
-      }
-
-    });
-
-    tujuan.sort();
-
-    tujuan.forEach(nama=>{
+    routes.forEach(route=>{
 
       const option =
         document.createElement("option");
 
-      option.value = nama;
+      option.value = route.destination;
 
       option.textContent =
-        "Dumai → " + nama;
+        "Dumai → " + route.destination;
 
       destination.appendChild(option);
 
     });
 
-    if(tujuan.length === 0){
+    if(routes.length === 0){
 
       document.getElementById("message").innerHTML =
       '<div class="error">Tidak ada tujuan tersedia.</div>';
