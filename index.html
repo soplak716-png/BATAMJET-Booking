@@ -267,10 +267,6 @@ Booking Baru
 
 <script>
 
-/* ===============================
-SUPABASE
-================================ */
-
 const SUPABASE_URL =
 "https://iymqjdfeadmqvxjanndq.supabase.co";
 
@@ -278,28 +274,28 @@ const SUPABASE_KEY =
 "sb_publishable__ihz_ZnsNjw8YxZyMA-eeg_TQQlWF89";
 
 
-async function supabase(path, options={}){
+async function supabase(path, options = {}) {
 
   const response = await fetch(
     SUPABASE_URL + "/rest/v1/" + path,
     {
-      method:options.method || "GET",
+      method: options.method || "GET",
 
-      headers:{
-        "apikey":SUPABASE_KEY,
-        "Authorization":"Bearer " + SUPABASE_KEY,
-        "Content-Type":"application/json",
-        "Prefer":"return=representation"
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + SUPABASE_KEY,
+        "Content-Type": "application/json",
+        "Prefer": "return=representation"
       },
 
-      body:options.body || undefined
+      body: options.body || undefined
     }
   );
 
   const text = await response.text();
 
-  if(!response.ok){
-    console.error(text);
+  if (!response.ok) {
+    console.error("SUPABASE ERROR:", text);
     throw new Error(text);
   }
 
@@ -307,38 +303,40 @@ async function supabase(path, options={}){
 }
 
 
-/* ===============================
-LOAD TUJUAN
-Mengambil langsung dari schedules
-================================ */
+/* =========================
+   LOAD TUJUAN
+========================= */
 
-async function loadRoutes(){
+async function loadRoutes() {
 
   const destination =
     document.getElementById("destination");
 
-  try{
+  try {
 
-    const schedules = await supabase(
-      "schedules?departure_date=eq.2026-10-05&status=eq.available&select=destination"
+    const routes = await supabase(
+      "routes?origin=eq.Dumai&active=eq.true&select=id,destination&order=destination"
     );
+
+    destination.innerHTML =
+      '<option value="">Pilih tujuan</option>';
 
     const tujuan = [];
 
-    schedules.forEach(row=>{
+    routes.forEach(route => {
 
-      if(
-        row.destination &&
-        !tujuan.includes(row.destination)
-      ){
-        tujuan.push(row.destination);
+      if (
+        route.destination &&
+        !tujuan.includes(route.destination)
+      ) {
+
+        tujuan.push(route.destination);
+
       }
 
     });
 
-    tujuan.sort();
-
-    tujuan.forEach(nama=>{
+    tujuan.forEach(nama => {
 
       const option =
         document.createElement("option");
@@ -352,28 +350,30 @@ async function loadRoutes(){
 
     });
 
-    if(tujuan.length === 0){
+    if (tujuan.length === 0) {
 
       document.getElementById("message").innerHTML =
-      '<div class="error">Tidak ada tujuan tersedia.</div>';
+        '<div class="error">Tidak ada tujuan tersedia.</div>';
 
     }
 
-  }catch(error){
+  } catch (error) {
 
     console.error(error);
 
     document.getElementById("message").innerHTML =
-    '<div class="error">Gagal mengambil tujuan dari database.</div>';
+      '<div class="error">Gagal mengambil daftar tujuan.</div>';
+
   }
+
 }
 
 
-/* ===============================
-CARI JADWAL
-================================ */
+/* =========================
+   CARI JADWAL
+========================= */
 
-async function cariJadwal(){
+async function cariJadwal() {
 
   const destination =
     document.getElementById("destination").value;
@@ -391,23 +391,24 @@ async function cariJadwal(){
     document.getElementById("scheduleList");
 
 
-  if(!destination || !date){
+  if (!destination || !date) {
 
     message.innerHTML =
-    '<div class="error">Pilih tujuan dan tanggal terlebih dahulu.</div>';
+      '<div class="error">Pilih tujuan dan tanggal terlebih dahulu.</div>';
 
     return;
   }
 
 
   message.innerHTML =
-  '<div class="success">Mencari jadwal...</div>';
+    '<div class="success">Mencari jadwal...</div>';
 
-  list.innerHTML="";
-  results.style.display="none";
+  results.style.display = "none";
+
+  list.innerHTML = "";
 
 
-  try{
+  try {
 
     const schedules = await supabase(
       "schedules?departure_date=eq." +
@@ -419,61 +420,564 @@ async function cariJadwal(){
     );
 
 
-    message.innerHTML="";
-    results.style.display="block";
+    message.innerHTML = "";
+
+    results.style.display = "block";
 
 
-    if(!schedules.length){
+    if (!schedules.length) {
 
       list.innerHTML =
-      "<p>Tidak ada jadwal pada tanggal tersebut.</p>";
+        "<p>Tidak ada jadwal pada tanggal tersebut.</p>";
 
       return;
     }
 
 
-    schedules.forEach(schedule=>{
+    schedules.forEach(schedule => {
 
       const time =
-      schedule.departure_time
-      ? schedule.departure_time.substring(0,5)
-      : "-";
+        schedule.departure_time
+          ? schedule.departure_time.substring(0, 5)
+          : "-";
 
 
       const price =
-      Number(schedule.price)
-      .toLocaleString("id-ID");
+        Number(schedule.price)
+          .toLocaleString("id-ID");
 
 
       const seats =
-      schedule.available_seats == null
-      ? "-"
-      : schedule.available_seats;
+        schedule.available_seats == null
+          ? "-"
+          : schedule.available_seats;
 
 
       const div =
-      document.createElement("div");
+        document.createElement("div");
 
-      div.className="schedule";
+      div.className = "schedule";
 
 
-      div.innerHTML=`
+      div.innerHTML = `
 
         <strong>
-        Dumai → ${schedule.destination}
+          Dumai → ${schedule.destination}
         </strong>
 
         <p>
-        <span class="small">Tanggal</span><br>
-        ${schedule.departure_date}
+          <span class="small">Operator</span><br>
+          Dumai Line
         </p>
 
         <p>
-        <span class="small">Jam berangkat</span><br>
-        ${time}
+          <span class="small">Tanggal</span><br>
+          ${schedule.departure_date}
         </p>
 
         <p>
-        <span class="small">Kursi tersedia</span><br>
-        ${seats}
-        </
+          <span class="small">Jam berangkat</span><br>
+          ${time}
+        </p>
+
+        <p>
+          <span class="small">Kursi tersedia</span><br>
+          ${seats}
+        </p>
+
+        <div class="price">
+          Rp ${price}
+        </div>
+
+        <button onclick='booking(${JSON.stringify(schedule)})'>
+          Lanjut Booking
+        </button>
+
+      `;
+
+
+      list.appendChild(div);
+
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    message.innerHTML =
+      '<div class="error">Gagal mengambil jadwal. Silakan coba lagi.</div>';
+
+  }
+
+}
+
+
+/* =========================
+   LANJUT BOOKING
+========================= */
+
+let selectedSchedule = null;
+
+
+function booking(schedule) {
+
+  selectedSchedule = schedule;
+
+
+  document.getElementById("searchCard")
+    .classList.add("hidden");
+
+  document.getElementById("bookingCard")
+    .classList.remove("hidden");
+
+
+  const time =
+    schedule.departure_time
+      ? schedule.departure_time.substring(0, 5)
+      : "-";
+
+
+  const price =
+    Number(schedule.price)
+      .toLocaleString("id-ID");
+
+
+  document.getElementById("bookingInfo").innerHTML = `
+
+    <div class="schedule">
+
+      <strong>
+        Dumai → ${schedule.destination}
+      </strong>
+
+      <p>
+        ${schedule.departure_date} · ${time}
+      </p>
+
+      <p>
+        Harga per penumpang:
+        <strong>Rp ${price}</strong>
+      </p>
+
+      <p>
+        Kursi tersedia:
+        <strong>${schedule.available_seats ?? "-"}</strong>
+      </p>
+
+    </div>
+
+  `;
+
+
+  const count =
+    document.getElementById("passengerCount");
+
+
+  count.innerHTML =
+    '<option value="">Pilih jumlah</option>';
+
+
+  const available =
+    Number(schedule.available_seats || 0);
+
+
+  const max =
+    Math.min(10, available);
+
+
+  for (let i = 1; i <= max; i++) {
+
+    const option =
+      document.createElement("option");
+
+    option.value = i;
+
+    option.textContent =
+      i + " penumpang";
+
+    count.appendChild(option);
+
+  }
+
+
+  buatPenumpang();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+/* =========================
+   BUAT FORM PENUMPANG
+========================= */
+
+function buatPenumpang() {
+
+  const count =
+    Number(
+      document.getElementById("passengerCount").value
+    );
+
+
+  const list =
+    document.getElementById("passengerList");
+
+
+  const totalBox =
+    document.getElementById("totalBox");
+
+
+  list.innerHTML = "";
+
+  totalBox.innerHTML = "";
+
+
+  if (!count || !selectedSchedule) {
+
+    return;
+
+  }
+
+
+  for (let i = 1; i <= count; i++) {
+
+    const div =
+      document.createElement("div");
+
+    div.className = "passenger";
+
+
+    div.innerHTML = `
+
+      <h4>
+        Penumpang ${i}
+      </h4>
+
+      <label>
+        Nama Lengkap
+      </label>
+
+      <input
+        type="text"
+        class="passenger-name"
+        placeholder="Nama lengkap"
+      >
+
+      <label>
+        Jenis Identitas
+      </label>
+
+      <select class="passenger-identity-type">
+
+        <option value="">
+          Pilih identitas
+        </option>
+
+        <option value="KTP">
+          KTP
+        </option>
+
+        <option value="SIM">
+          SIM
+        </option>
+
+        <option value="Paspor">
+          Paspor
+        </option>
+
+      </select>
+
+      <label>
+        Nomor Identitas
+      </label>
+
+      <input
+        type="text"
+        class="passenger-identity-number"
+        placeholder="Nomor identitas"
+      >
+
+    `;
+
+
+    list.appendChild(div);
+
+  }
+
+
+  hitungTotal();
+
+}
+
+
+/* =========================
+   HITUNG TOTAL
+========================= */
+
+function hitungTotal() {
+
+  if (!selectedSchedule) return;
+
+
+  const count =
+    Number(
+      document.getElementById("passengerCount").value
+    );
+
+
+  if (!count) return;
+
+
+  const total =
+    Number(selectedSchedule.price) * count;
+
+
+  document.getElementById("totalBox").innerHTML = `
+
+    <div class="total">
+
+      Total:
+      Rp ${total.toLocaleString("id-ID")}
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================
+   SIMPAN BOOKING
+========================= */
+
+async function simpanBooking() {
+
+  const customerName =
+    document.getElementById("customerName").value.trim();
+
+  const customerPhone =
+    document.getElementById("customerPhone").value.trim();
+
+  const customerEmail =
+    document.getElementById("customerEmail").value.trim();
+
+  const count =
+    Number(
+      document.getElementById("passengerCount").value
+    );
+
+
+  const bookingMessage =
+    document.getElementById("bookingMessage");
+
+
+  if (!customerName || !customerPhone || !count) {
+
+    bookingMessage.innerHTML =
+      '<div class="error">Lengkapi data pemesan dan jumlah penumpang.</div>';
+
+    return;
+
+  }
+
+
+  const names =
+    document.querySelectorAll(".passenger-name");
+
+  const identityTypes =
+    document.querySelectorAll(".passenger-identity-type");
+
+  const identityNumbers =
+    document.querySelectorAll(".passenger-identity-number");
+
+
+  const passengers = [];
+
+
+  for (let i = 0; i < count; i++) {
+
+    if (
+      !names[i].value.trim() ||
+      !identityTypes[i].value ||
+      !identityNumbers[i].value.trim()
+    ) {
+
+      bookingMessage.innerHTML =
+        '<div class="error">Lengkapi semua data penumpang.</div>';
+
+      return;
+
+    }
+
+
+    passengers.push({
+
+      full_name:
+        names[i].value.trim(),
+
+      identity_type:
+        identityTypes[i].value,
+
+      identity_number:
+        identityNumbers[i].value.trim()
+
+    });
+
+  }
+
+
+  const totalAmount =
+    Number(selectedSchedule.price) * count;
+
+
+  bookingMessage.innerHTML =
+    '<div class="success">Menyimpan booking...</div>';
+
+
+  try {
+
+    const bookingResult =
+      await supabase(
+        "bookings",
+        {
+          method: "POST",
+
+          body: JSON.stringify({
+
+            schedule_id:
+              selectedSchedule.id,
+
+            customer_name:
+              customerName,
+
+            customer_phone:
+              customerPhone,
+
+            customer_email:
+              customerEmail || null,
+
+            total_passengers:
+              count,
+
+            total_amount:
+              totalAmount,
+
+            status:
+              "pending"
+
+          })
+
+        }
+      );
+
+
+    const bookingId =
+      bookingResult[0].id;
+
+
+    for (const passenger of passengers) {
+
+      await supabase(
+        "passengers",
+        {
+          method: "POST",
+
+          body: JSON.stringify({
+
+            booking_id:
+              bookingId,
+
+            full_name:
+              passenger.full_name,
+
+            identity_type:
+              passenger.identity_type,
+
+            identity_number:
+              passenger.identity_number
+
+          })
+
+        }
+      );
+
+    }
+
+
+    document.getElementById("bookingCard")
+      .classList.add("hidden");
+
+    document.getElementById("successCard")
+      .classList.remove("hidden");
+
+
+    document.getElementById("bookingCode").innerHTML =
+      "Kode Booking<br>" +
+      bookingId.substring(0, 8).toUpperCase();
+
+
+    document.getElementById("successDetail").innerHTML = `
+
+      <p>
+        <strong>
+          Dumai → ${selectedSchedule.destination}
+        </strong>
+      </p>
+
+      <p>
+        Tanggal:
+        ${selectedSchedule.departure_date}
+      </p>
+
+      <p>
+        Jumlah penumpang:
+        ${count}
+      </p>
+
+      <p>
+        Total:
+        <strong>
+          Rp ${totalAmount.toLocaleString("id-ID")}
+        </strong>
+      </p>
+
+    `;
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    bookingMessage.innerHTML =
+      '<div class="error">Booking gagal disimpan. Periksa izin tabel Supabase.</div>';
+
+  }
+
+}
+
+
+/* =========================
+   KEMBALI
+========================= */
+
+function kembali() {
+
+  document.getElementById("bookingCard")
+    .classList.add("hidden");
+
+  document.getElementById("searchCard")
+    .classList.remove("hidden");
+
+}
+
+
+/* =========================
+   MULAI
+========================= */
+
+loadRoutes();
+
+</script>
