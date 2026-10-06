@@ -309,7 +309,11 @@ class="booking-code"
 ></div>
 
 <div id="successDetail"></div>
-
+<div id="countdownBox" class="success">
+  ⏳ Selesaikan pembayaran dalam:
+  <strong id="countdown">15:00</strong>
+</div>
+  
 <button onclick="location.reload()">
 Booking Baru
 </button>
@@ -989,7 +993,7 @@ async function simpanBooking(){
 
     document.getElementById("successDetail")
       .innerHTML = `
-
+            `;
         <p>
           <strong>Rute:</strong><br>
           Dumai →
@@ -1018,7 +1022,7 @@ async function simpanBooking(){
         </div>
 
       `;
-
+            startCountdown(booking.expires_at);
 
   }catch(error){
 
@@ -1045,6 +1049,50 @@ async function simpanBooking(){
 }
 
 
+  function startCountdown(expiresAt){
+
+  const countdown =
+    document.getElementById("countdown");
+
+  const countdownBox =
+    document.getElementById("countdownBox");
+
+  function updateCountdown(){
+
+    const remaining =
+      new Date(expiresAt).getTime() -
+      Date.now();
+
+    if(remaining <= 0){
+
+      countdown.textContent = "00:00";
+
+      countdownBox.innerHTML =
+        "⏰ Waktu booking telah habis. " +
+        "Silakan lakukan booking kembali.";
+
+      return;
+    }
+
+    const minutes =
+      Math.floor(remaining / 60000);
+
+    const seconds =
+      Math.floor(
+        (remaining % 60000) / 1000
+      );
+
+    countdown.textContent =
+      String(minutes).padStart(2,"0") +
+      ":" +
+      String(seconds).padStart(2,"0");
+
+    setTimeout(updateCountdown,1000);
+  }
+
+  updateCountdown();
+}
+  
 /* ===============================
 JALANKAN
 ================================ */
