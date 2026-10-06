@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Batam Jet Booking</title>
 
 <style>
@@ -23,15 +22,8 @@ header{
   text-align:center;
 }
 
-header h1{
-  margin:0;
-  font-size:26px;
-}
-
-header p{
-  margin:8px 0 0;
-  opacity:.9;
-}
+header h1{margin:0;font-size:26px}
+header p{margin:8px 0 0;opacity:.9}
 
 .container{
   max-width:600px;
@@ -54,17 +46,14 @@ label{
   font-weight:bold;
 }
 
-select,
-input,
-button{
+select,input,button{
   width:100%;
   padding:13px;
   border-radius:10px;
   font-size:16px;
 }
 
-select,
-input{
+select,input{
   border:1px solid #d5dbe5;
   background:white;
 }
@@ -75,21 +64,14 @@ button{
   background:#0b7a75;
   color:white;
   font-weight:bold;
-  cursor:pointer;
 }
 
-button.secondary{
-  background:#e8edf2;
+.secondary{
+  background:#e5e7eb;
   color:#172033;
 }
 
-button.danger{
-  background:#b42318;
-}
-
-.message{
-  margin-top:15px;
-}
+.message{margin-top:15px}
 
 .error{
   background:#ffe7e7;
@@ -110,11 +92,6 @@ button.danger{
   border-radius:14px;
   padding:16px;
   margin-top:12px;
-  background:#fff;
-}
-
-.schedule strong{
-  font-size:18px;
 }
 
 .price{
@@ -127,10 +104,6 @@ button.danger{
 .small{
   color:#667085;
   font-size:14px;
-}
-
-.hidden{
-  display:none;
 }
 
 .passenger{
@@ -156,49 +129,48 @@ button.danger{
 .booking-code{
   font-size:24px;
   font-weight:bold;
-  letter-spacing:1px;
   text-align:center;
-  margin:15px 0;
   color:#0b7a75;
+  margin:18px 0;
 }
+
+.hidden{display:none}
 </style>
 </head>
 
 <body>
 
 <header>
-  <h1>Batam Jet Booking</h1>
-  <p>Booking tiket kapal dari Dumai</p>
+<h1>Batam Jet Booking</h1>
+<p>Booking tiket kapal dari Dumai</p>
 </header>
-
 
 <div class="container">
 
-<!-- ================= CARI JADWAL ================= -->
-
+<!-- CARI JADWAL -->
 <div class="card" id="searchCard">
 
 <h2>Cari Jadwal</h2>
 
-<label for="destination">Tujuan</label>
+<label>Tujuan</label>
 
 <select id="destination">
-  <option value="">Pilih tujuan</option>
+<option value="">Pilih tujuan</option>
 </select>
 
-<label for="date">Tanggal</label>
+<label>Tanggal</label>
 
 <input
-  type="date"
-  id="date"
-  value="2026-10-05"
+type="date"
+id="date"
+value="2026-10-05"
 >
 
 <button onclick="cariJadwal()">
-  Cari Jadwal
+Cari Jadwal
 </button>
 
-<div id="message"></div>
+<div id="message" class="message"></div>
 
 <div id="results" style="display:none">
 
@@ -211,50 +183,41 @@ button.danger{
 </div>
 
 
-<!-- ================= FORM BOOKING ================= -->
-
+<!-- BOOKING -->
 <div class="card hidden" id="bookingCard">
 
-<h2>Data Pemesanan</h2>
+<h2>Data Penumpang</h2>
 
 <div id="bookingInfo"></div>
 
-<label for="customerName">
-  Nama Pemesan
-</label>
+<label>Nama Pemesan</label>
 
 <input
-  type="text"
-  id="customerName"
-  placeholder="Masukkan nama pemesan"
+type="text"
+id="customerName"
+placeholder="Nama pemesan"
 >
 
-<label for="customerPhone">
-  Nomor WhatsApp
-</label>
+<label>Nomor WhatsApp Pemesan</label>
 
 <input
-  type="tel"
-  id="customerPhone"
-  placeholder="Contoh: 08123456789"
+type="tel"
+id="customerPhone"
+placeholder="Contoh: 08123456789"
 >
 
-<label for="customerEmail">
-  Email (opsional)
-</label>
+<label>Email (opsional)</label>
 
 <input
-  type="email"
-  id="customerEmail"
-  placeholder="nama@email.com"
+type="email"
+id="customerEmail"
+placeholder="nama@email.com"
 >
 
-<label for="passengerCount">
-  Jumlah Penumpang
-</label>
+<label>Jumlah Penumpang</label>
 
-<select id="passengerCount" onchange="buatFormPenumpang()">
-  <option value="">Pilih jumlah</option>
+<select id="passengerCount" onchange="buatPenumpang()">
+<option value="">Pilih jumlah</option>
 </select>
 
 <div id="passengerList"></div>
@@ -262,37 +225,39 @@ button.danger{
 <div id="totalBox"></div>
 
 <button onclick="simpanBooking()">
-  Konfirmasi Booking
+Konfirmasi Booking
 </button>
 
 <button
-  class="secondary"
-  onclick="kembaliJadwal()"
+class="secondary"
+onclick="kembali()"
 >
-  Kembali
+Kembali
 </button>
 
-<div id="bookingMessage"></div>
+<div id="bookingMessage" class="message"></div>
 
 </div>
 
 
-<!-- ================= HASIL BOOKING ================= -->
-
+<!-- BERHASIL -->
 <div class="card hidden" id="successCard">
 
 <h2>Booking Berhasil 🎉</h2>
 
 <div class="success">
-  Data booking berhasil disimpan.
+Booking berhasil disimpan.
 </div>
 
-<div class="booking-code" id="bookingCode"></div>
+<div
+id="bookingCode"
+class="booking-code"
+></div>
 
 <div id="successDetail"></div>
 
 <button onclick="location.reload()">
-  Booking Baru
+Booking Baru
 </button>
 
 </div>
@@ -302,4 +267,213 @@ button.danger{
 
 <script>
 
-/
+/* ===============================
+SUPABASE
+================================ */
+
+const SUPABASE_URL =
+"https://iymqjdfeadmqvxjanndq.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable__ihz_ZnsNjw8YxZyMA-eeg_TQQlWF89";
+
+
+async function supabase(path, options={}){
+
+  const response = await fetch(
+    SUPABASE_URL + "/rest/v1/" + path,
+    {
+      method:options.method || "GET",
+
+      headers:{
+        "apikey":SUPABASE_KEY,
+        "Authorization":"Bearer " + SUPABASE_KEY,
+        "Content-Type":"application/json",
+        "Prefer":"return=representation"
+      },
+
+      body:options.body || undefined
+    }
+  );
+
+  const text = await response.text();
+
+  if(!response.ok){
+    console.error(text);
+    throw new Error(text);
+  }
+
+  return text ? JSON.parse(text) : [];
+}
+
+
+/* ===============================
+LOAD TUJUAN
+Mengambil langsung dari schedules
+================================ */
+
+async function loadRoutes(){
+
+  const destination =
+    document.getElementById("destination");
+
+  try{
+
+    const schedules = await supabase(
+      "schedules?departure_date=eq.2026-10-05&status=eq.available&select=destination"
+    );
+
+    const tujuan = [];
+
+    schedules.forEach(row=>{
+
+      if(
+        row.destination &&
+        !tujuan.includes(row.destination)
+      ){
+        tujuan.push(row.destination);
+      }
+
+    });
+
+    tujuan.sort();
+
+    tujuan.forEach(nama=>{
+
+      const option =
+        document.createElement("option");
+
+      option.value = nama;
+
+      option.textContent =
+        "Dumai → " + nama;
+
+      destination.appendChild(option);
+
+    });
+
+    if(tujuan.length === 0){
+
+      document.getElementById("message").innerHTML =
+      '<div class="error">Tidak ada tujuan tersedia.</div>';
+
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    document.getElementById("message").innerHTML =
+    '<div class="error">Gagal mengambil tujuan dari database.</div>';
+  }
+}
+
+
+/* ===============================
+CARI JADWAL
+================================ */
+
+async function cariJadwal(){
+
+  const destination =
+    document.getElementById("destination").value;
+
+  const date =
+    document.getElementById("date").value;
+
+  const message =
+    document.getElementById("message");
+
+  const results =
+    document.getElementById("results");
+
+  const list =
+    document.getElementById("scheduleList");
+
+
+  if(!destination || !date){
+
+    message.innerHTML =
+    '<div class="error">Pilih tujuan dan tanggal terlebih dahulu.</div>';
+
+    return;
+  }
+
+
+  message.innerHTML =
+  '<div class="success">Mencari jadwal...</div>';
+
+  list.innerHTML="";
+  results.style.display="none";
+
+
+  try{
+
+    const schedules = await supabase(
+      "schedules?departure_date=eq." +
+      encodeURIComponent(date) +
+      "&destination=eq." +
+      encodeURIComponent(destination) +
+      "&status=eq.available" +
+      "&select=id,route_id,destination,departure_date,departure_time,price,available_seats,status"
+    );
+
+
+    message.innerHTML="";
+    results.style.display="block";
+
+
+    if(!schedules.length){
+
+      list.innerHTML =
+      "<p>Tidak ada jadwal pada tanggal tersebut.</p>";
+
+      return;
+    }
+
+
+    schedules.forEach(schedule=>{
+
+      const time =
+      schedule.departure_time
+      ? schedule.departure_time.substring(0,5)
+      : "-";
+
+
+      const price =
+      Number(schedule.price)
+      .toLocaleString("id-ID");
+
+
+      const seats =
+      schedule.available_seats == null
+      ? "-"
+      : schedule.available_seats;
+
+
+      const div =
+      document.createElement("div");
+
+      div.className="schedule";
+
+
+      div.innerHTML=`
+
+        <strong>
+        Dumai → ${schedule.destination}
+        </strong>
+
+        <p>
+        <span class="small">Tanggal</span><br>
+        ${schedule.departure_date}
+        </p>
+
+        <p>
+        <span class="small">Jam berangkat</span><br>
+        ${time}
+        </p>
+
+        <p>
+        <span class="small">Kursi tersedia</span><br>
+        ${seats}
+        </
