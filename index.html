@@ -7,165 +7,159 @@
 <title>Batam Jet Booking</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  color:#172033;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f7fb;
-  color: #172033;
+header{
+  background:#0b7a75;
+  color:white;
+  padding:24px 20px;
+  text-align:center;
 }
 
-header {
-  background: #0b7a75;
-  color: white;
-  padding: 24px 20px;
-  text-align: center;
+header h1{
+  margin:0;
+  font-size:26px;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 26px;
+header p{
+  margin:8px 0 0;
+  opacity:.9;
 }
 
-header p {
-  margin: 8px 0 0;
-  opacity: .9;
+.container{
+  max-width:600px;
+  margin:25px auto;
+  padding:0 16px;
 }
 
-.container {
-  max-width: 600px;
-  margin: 25px auto;
-  padding: 0 16px;
+.card{
+  background:white;
+  padding:20px;
+  border-radius:16px;
+  box-shadow:0 4px 18px rgba(0,0,0,.08);
+  margin-bottom:20px;
 }
 
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 18px rgba(0,0,0,.08);
-  margin-bottom: 18px;
+label{
+  display:block;
+  margin-top:15px;
+  margin-bottom:7px;
+  font-weight:bold;
 }
 
-h2 {
-  margin-top: 0;
-}
-
-label {
-  display: block;
-  margin-top: 15px;
-  margin-bottom: 7px;
-  font-weight: bold;
-}
-
-input,
 select,
-button {
-  width: 100%;
-  padding: 13px;
-  border-radius: 10px;
-  font-size: 16px;
-}
-
 input,
-select {
-  border: 1px solid #d5dbe5;
-  background: white;
+button{
+  width:100%;
+  padding:13px;
+  border-radius:10px;
+  font-size:16px;
 }
 
-button {
-  margin-top: 20px;
-  border: none;
-  background: #0b7a75;
-  color: white;
-  font-weight: bold;
+select,
+input{
+  border:1px solid #d5dbe5;
+  background:white;
 }
 
-button.secondary {
-  background: #e8eef2;
-  color: #172033;
+button{
+  margin-top:20px;
+  border:none;
+  background:#0b7a75;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
 }
 
-button:active {
-  transform: scale(.98);
+button.secondary{
+  background:#e8edf2;
+  color:#172033;
 }
 
-.hidden {
-  display: none !important;
+button.danger{
+  background:#b42318;
 }
 
-.schedule {
-  border: 1px solid #e0e5ec;
-  border-radius: 14px;
-  padding: 16px;
-  margin-top: 12px;
+.message{
+  margin-top:15px;
 }
 
-.schedule strong {
-  font-size: 18px;
+.error{
+  background:#ffe7e7;
+  color:#b00020;
+  padding:12px;
+  border-radius:10px;
 }
 
-.price {
-  font-size: 22px;
-  font-weight: bold;
-  color: #0b7a75;
-  margin-top: 10px;
+.success{
+  background:#e7f8ef;
+  color:#087443;
+  padding:12px;
+  border-radius:10px;
 }
 
-.small {
-  color: #667085;
-  font-size: 14px;
+.schedule{
+  border:1px solid #e0e5ec;
+  border-radius:14px;
+  padding:16px;
+  margin-top:12px;
+  background:#fff;
 }
 
-.message {
-  margin-top: 15px;
-  padding: 12px;
-  border-radius: 10px;
+.schedule strong{
+  font-size:18px;
 }
 
-.error {
-  background: #ffe7e7;
-  color: #b00020;
+.price{
+  font-size:22px;
+  font-weight:bold;
+  color:#0b7a75;
+  margin-top:10px;
 }
 
-.success {
-  background: #e7f8ef;
-  color: #087443;
+.small{
+  color:#667085;
+  font-size:14px;
 }
 
-.passenger {
-  border: 1px solid #e0e5ec;
-  border-radius: 14px;
-  padding: 16px;
-  margin-top: 15px;
+.hidden{
+  display:none;
 }
 
-.passenger h3 {
-  margin-top: 0;
+.passenger{
+  border:1px solid #e0e5ec;
+  border-radius:12px;
+  padding:15px;
+  margin-top:12px;
 }
 
-.summary-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
+.passenger h4{
+  margin:0 0 10px;
 }
 
-.total {
-  font-size: 23px;
-  font-weight: bold;
-  color: #0b7a75;
-  margin-top: 15px;
+.total{
+  font-size:22px;
+  font-weight:bold;
+  color:#0b7a75;
+  margin-top:15px;
+  padding-top:15px;
+  border-top:1px solid #ddd;
 }
 
-.notice {
-  background: #f0f7f7;
-  padding: 13px;
-  border-radius: 10px;
-  margin-top: 15px;
+.booking-code{
+  font-size:24px;
+  font-weight:bold;
+  letter-spacing:1px;
+  text-align:center;
+  margin:15px 0;
+  color:#0b7a75;
 }
 </style>
 </head>
@@ -177,11 +171,10 @@ button:active {
   <p>Booking tiket kapal dari Dumai</p>
 </header>
 
+
 <div class="container">
 
-<!-- =========================
-     CARI JADWAL
-========================= -->
+<!-- ================= CARI JADWAL ================= -->
 
 <div class="card" id="searchCard">
 
@@ -207,7 +200,7 @@ button:active {
 
 <div id="message"></div>
 
-<div id="results" class="hidden">
+<div id="results" style="display:none">
 
 <h3>Jadwal Tersedia</h3>
 
@@ -218,73 +211,88 @@ button:active {
 </div>
 
 
-<!-- =========================
-     FORM BOOKING
-========================= -->
+<!-- ================= FORM BOOKING ================= -->
 
 <div class="card hidden" id="bookingCard">
 
-<h2>Data Penumpang</h2>
+<h2>Data Pemesanan</h2>
 
-<div id="selectedSchedule"></div>
+<div id="bookingInfo"></div>
+
+<label for="customerName">
+  Nama Pemesan
+</label>
+
+<input
+  type="text"
+  id="customerName"
+  placeholder="Masukkan nama pemesan"
+>
+
+<label for="customerPhone">
+  Nomor WhatsApp
+</label>
+
+<input
+  type="tel"
+  id="customerPhone"
+  placeholder="Contoh: 08123456789"
+>
+
+<label for="customerEmail">
+  Email (opsional)
+</label>
+
+<input
+  type="email"
+  id="customerEmail"
+  placeholder="nama@email.com"
+>
 
 <label for="passengerCount">
-Jumlah Penumpang
+  Jumlah Penumpang
 </label>
 
 <select id="passengerCount" onchange="buatFormPenumpang()">
   <option value="">Pilih jumlah</option>
 </select>
 
-<div id="passengerForms"></div>
+<div id="passengerList"></div>
 
-<label for="phone">
-Nomor WhatsApp Pemesan
-</label>
+<div id="totalBox"></div>
 
-<input
-  type="tel"
-  id="phone"
-  placeholder="Contoh: 08123456789"
->
-
-<button onclick="lihatRingkasan()">
-  Lihat Ringkasan
+<button onclick="simpanBooking()">
+  Konfirmasi Booking
 </button>
 
 <button
   class="secondary"
-  onclick="kembaliKeJadwal()"
+  onclick="kembaliJadwal()"
 >
   Kembali
 </button>
 
+<div id="bookingMessage"></div>
+
 </div>
 
 
-<!-- =========================
-     RINGKASAN
-========================= -->
+<!-- ================= HASIL BOOKING ================= -->
 
-<div class="card hidden" id="summaryCard">
+<div class="card hidden" id="successCard">
 
-<h2>Ringkasan Pesanan</h2>
+<h2>Booking Berhasil 🎉</h2>
 
-<div id="summaryContent"></div>
-
-<div class="notice">
-  Periksa kembali data penumpang sebelum melanjutkan.
+<div class="success">
+  Data booking berhasil disimpan.
 </div>
 
-<button onclick="lanjutPembayaran()">
-  Lanjut ke Pembayaran
-</button>
+<div class="booking-code" id="bookingCode"></div>
 
-<button
-  class="secondary"
-  onclick="kembaliKeBooking()"
->
-  Ubah Data
+<div id="successDetail"></div>
+
+<button onclick="location.reload()">
+  Booking Baru
 </button>
 
 </div>
@@ -294,817 +302,4 @@ Nomor WhatsApp Pemesan
 
 <script>
 
-/* =====================================
-   SUPABASE
-===================================== */
-
-const SUPABASE_URL =
-  "https://iymqjdfeadmqvxjanndq.supabase.co";
-
-/*
-  PENTING:
-  Pertahankan Publishable Key yang sekarang
-  sudah ada di file kamu.
-*/
-const SUPABASE_KEY =
-  "sb_publishable__ihz_ZnsNjw8YxZyMA-eeg_TQQlWF89";
-
-
-async function supabase(path) {
-
-  const response = await fetch(
-    SUPABASE_URL + "/rest/v1/" + path,
-    {
-      method: "GET",
-      headers: {
-        "apikey": SUPABASE_KEY,
-        "Authorization":
-          "Bearer " + SUPABASE_KEY
-      }
-    }
-  );
-
-  const text = await response.text();
-
-  if (!response.ok) {
-
-    console.error(
-      "Supabase error:",
-      text
-    );
-
-    throw new Error(text);
-  }
-
-  return text
-    ? JSON.parse(text)
-    : [];
-}
-
-
-/* =====================================
-   DATA GLOBAL
-===================================== */
-
-let selectedSchedule = null;
-
-let selectedDestination = "";
-
-let selectedDate = "";
-
-let availableSeats = 0;
-
-
-/* =====================================
-   LOAD TUJUAN
-===================================== */
-
-async function loadRoutes() {
-
-  const destination =
-    document.getElementById(
-      "destination"
-    );
-
-  try {
-
-    const routes =
-      await supabase(
-        "routes?origin=eq.Dumai&active=eq.true&select=id,destination&order=destination"
-      );
-
-    routes.forEach(route => {
-
-      const option =
-        document.createElement("option");
-
-      option.value =
-        route.destination;
-
-      option.textContent =
-        "Dumai → " +
-        route.destination;
-
-      destination.appendChild(option);
-
-    });
-
-  } catch(error) {
-
-    console.error(error);
-
-    document.getElementById(
-      "message"
-    ).innerHTML =
-      '<div class="message error">' +
-      'Gagal mengambil tujuan.' +
-      '</div>';
-  }
-}
-
-
-/* =====================================
-   CARI JADWAL
-===================================== */
-
-async function cariJadwal() {
-
-  const destination =
-    document.getElementById(
-      "destination"
-    ).value;
-
-  const date =
-    document.getElementById(
-      "date"
-    ).value;
-
-  const message =
-    document.getElementById(
-      "message"
-    );
-
-  const results =
-    document.getElementById(
-      "results"
-    );
-
-  const list =
-    document.getElementById(
-      "scheduleList"
-    );
-
-
-  if (!destination || !date) {
-
-    message.innerHTML =
-      '<div class="message error">' +
-      'Pilih tujuan dan tanggal terlebih dahulu.' +
-      '</div>';
-
-    return;
-  }
-
-
-  message.innerHTML =
-    '<div class="message success">' +
-    'Mencari jadwal...' +
-    '</div>';
-
-  results.classList.add("hidden");
-
-  list.innerHTML = "";
-
-
-  try {
-
-    const schedules =
-      await supabase(
-        "schedules?departure_date=eq." +
-        encodeURIComponent(date) +
-        "&status=eq.available&select=id,route_id,departure_date,departure_time,price,available_seats,status,vessel_id"
-      );
-
-
-    const routes =
-      await supabase(
-        "routes?origin=eq.Dumai&active=eq.true&select=id,destination"
-      );
-
-
-    const selectedRoute =
-      routes.find(
-        route =>
-          route.destination ===
-          destination
-      );
-
-
-    if (!selectedRoute) {
-
-      throw new Error(
-        "Rute tidak ditemukan."
-      );
-    }
-
-
-    const schedule =
-      schedules.find(
-        item =>
-          String(item.route_id) ===
-          String(selectedRoute.id)
-      );
-
-
-    if (!schedule) {
-
-      message.innerHTML =
-        '<div class="message error">' +
-        'Tidak ada jadwal pada tanggal tersebut.' +
-        '</div>';
-
-      return;
-    }
-
-
-    selectedSchedule =
-      schedule;
-
-    selectedDestination =
-      destination;
-
-    selectedDate =
-      date;
-
-
-    /*
-      Gunakan kapasitas 387 untuk MV 12
-      yang sudah kita pasang di database.
-    */
-
-    const seatResponse = await fetch(
-  SUPABASE_URL + "/rest/v1/rpc/get_available_seats",
-  {
-    method: "POST",
-    headers: {
-      "apikey": SUPABASE_KEY,
-      "Authorization": "Bearer " + SUPABASE_KEY,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      schedule_uuid: schedule.id
-    })
-  }
-);
-
-if (!seatResponse.ok) {
-  throw new Error(
-    await seatResponse.text()
-  );
-}
-
-availableSeats = Number(
-  await seatResponse.json()
-);
-
-
-    const time =
-      schedule.departure_time
-        ? schedule.departure_time
-            .substring(0,5)
-        : "-";
-
-
-    const price =
-      Number(schedule.price)
-        .toLocaleString("id-ID");
-
-
-    message.innerHTML = "";
-
-    results.classList.remove(
-      "hidden"
-    );
-
-
-    list.innerHTML = `
-
-      <div class="schedule">
-
-        <strong>
-          Dumai → ${destination}
-        </strong>
-
-        <p>
-          <span class="small">
-            Operator
-          </span><br>
-          Dumai Line
-        </p>
-
-        <p>
-          <span class="small">
-            Kapal
-          </span><br>
-          MV Dumai Line 12
-        </p>
-
-        <p>
-          <span class="small">
-            Tanggal
-          </span><br>
-          ${date}
-        </p>
-
-        <p>
-          <span class="small">
-            Berangkat
-          </span><br>
-          ${time}
-        </p>
-
-        <p>
-          <span class="small">
-            Kursi tersedia
-          </span><br>
-          ${availableSeats}
-        </p>
-
-        <div class="price">
-          Rp ${price}
-        </div>
-
-        <button
-          onclick="mulaiBooking()"
-        >
-          Lanjut Booking
-        </button>
-
-      </div>
-    `;
-    
-
-  } catch(error) {
-
-    console.error(error);
-
-    message.innerHTML =
-      '<div class="message error">' +
-      'Gagal mengambil jadwal.' +
-      '</div>';
-  }
-}
-
-
-/* =====================================
-   MULAI BOOKING
-===================================== */
-
-function mulaiBooking() {
-
-  if (!selectedSchedule) {
-
-    alert(
-      "Silakan pilih jadwal terlebih dahulu."
-    );
-
-    return;
-  }
-
-
-  document.getElementById(
-    "searchCard"
-  ).classList.add("hidden");
-
-
-  document.getElementById(
-    "bookingCard"
-  ).classList.remove("hidden");
-
-
-  document.getElementById(
-    "summaryCard"
-  ).classList.add("hidden");
-
-
-  const price =
-    Number(
-      selectedSchedule.price
-    ).toLocaleString("id-ID");
-
-
-  document.getElementById(
-    "selectedSchedule"
-  ).innerHTML = `
-
-    <div class="notice">
-
-      <strong>
-        Dumai → ${selectedDestination}
-      </strong>
-
-      <br>
-
-      ${selectedDate}
-      •
-      ${selectedSchedule.departure_time.substring(0,5)}
-
-      <br>
-
-      MV Dumai Line 12
-
-      <br><br>
-
-      Harga per penumpang:
-      <strong>
-        Rp ${price}
-      </strong>
-
-      <br>
-
-      Kursi tersedia:
-      <strong>
-        ${availableSeats}
-      </strong>
-
-    </div>
-  `;
-
-
-  const count =
-    document.getElementById(
-      "passengerCount"
-    );
-
-  count.innerHTML =
-    '<option value="">Pilih jumlah</option>';
-
-
-  const max =
-    Math.min(
-      availableSeats,
-      10
-    );
-
-
-  for (
-    let i = 1;
-    i <= max;
-    i++
-  ) {
-
-    const option =
-      document.createElement(
-        "option"
-      );
-
-    option.value = i;
-
-    option.textContent =
-      i +
-      " penumpang";
-
-    count.appendChild(
-      option
-    );
-  }
-
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-}
-
-
-/* =====================================
-   BUAT FORM PENUMPANG
-===================================== */
-
-function buatFormPenumpang() {
-
-  const count =
-    Number(
-      document.getElementById(
-        "passengerCount"
-      ).value
-    );
-
-  const container =
-    document.getElementById(
-      "passengerForms"
-    );
-
-
-  container.innerHTML = "";
-
-
-  if (!count) return;
-
-
-  for (
-    let i = 1;
-    i <= count;
-    i++
-  ) {
-
-    container.innerHTML += `
-
-      <div class="passenger">
-
-        <h3>
-          Penumpang ${i}
-        </h3>
-
-        <label>
-          Nama Lengkap
-        </label>
-
-        <input
-          type="text"
-          id="name_${i}"
-          placeholder="Nama sesuai identitas"
-        >
-
-
-        <label>
-          Jenis Identitas
-        </label>
-
-        <select id="identity_${i}">
-
-          <option value="">
-            Pilih identitas
-          </option>
-
-          <option value="KTP">
-            KTP
-          </option>
-
-          <option value="PASSPORT">
-            Passport
-          </option>
-
-          <option value="OTHER">
-            Lainnya
-          </option>
-
-        </select>
-
-
-        <label>
-          Nomor Identitas
-        </label>
-
-        <input
-          type="text"
-          id="identity_number_${i}"
-          placeholder="Nomor identitas"
-        >
-
-      </div>
-    `;
-  }
-}
-
-
-/* =====================================
-   RINGKASAN
-===================================== */
-
-function lihatRingkasan() {
-
-  const count =
-    Number(
-      document.getElementById(
-        "passengerCount"
-      ).value
-    );
-
-  const phone =
-    document.getElementById(
-      "phone"
-    ).value.trim();
-
-
-  if (!count) {
-
-    alert(
-      "Pilih jumlah penumpang."
-    );
-
-    return;
-  }
-
-
-  if (!phone) {
-
-    alert(
-      "Masukkan nomor WhatsApp pemesan."
-    );
-
-    return;
-  }
-
-
-  const passengers = [];
-
-
-  for (
-    let i = 1;
-    i <= count;
-    i++
-  ) {
-
-    const name =
-      document.getElementById(
-        "name_" + i
-      ).value.trim();
-
-    const identity =
-      document.getElementById(
-        "identity_" + i
-      ).value;
-
-    const identityNumber =
-      document.getElementById(
-        "identity_number_" + i
-      ).value.trim();
-
-
-    if (
-      !name ||
-      !identity ||
-      !identityNumber
-    ) {
-
-      alert(
-        "Lengkapi semua data Penumpang " +
-        i +
-        "."
-      );
-
-      return;
-    }
-
-
-    passengers.push({
-      name,
-      identity,
-      identityNumber
-    });
-  }
-
-
-  const price =
-    Number(
-      selectedSchedule.price
-    );
-
-
-  const total =
-    price * count;
-
-
-  let html = `
-
-    <div class="summary-row">
-      <span>Rute</span>
-      <strong>
-        Dumai → ${selectedDestination}
-      </strong>
-    </div>
-
-    <div class="summary-row">
-      <span>Tanggal</span>
-      <strong>
-        ${selectedDate}
-      </strong>
-    </div>
-
-    <div class="summary-row">
-      <span>Jam</span>
-      <strong>
-        ${selectedSchedule.departure_time.substring(0,5)}
-      </strong>
-    </div>
-
-    <div class="summary-row">
-      <span>Kapal</span>
-      <strong>
-        MV Dumai Line 12
-      </strong>
-    </div>
-
-    <div class="summary-row">
-      <span>Jumlah</span>
-      <strong>
-        ${count} penumpang
-      </strong>
-    </div>
-
-    <h3>Penumpang</h3>
-  `;
-
-
-  passengers.forEach(
-    (passenger, index) => {
-
-      html += `
-
-        <div class="notice">
-
-          <strong>
-            ${index + 1}.
-            ${passenger.name}
-          </strong>
-
-          <br>
-
-          ${passenger.identity}:
-          ${passenger.identityNumber}
-
-        </div>
-      `;
-    }
-  );
-
-
-  html += `
-
-    <div class="summary-row">
-      <span>Harga tiket</span>
-      <strong>
-        Rp ${price.toLocaleString("id-ID")}
-      </strong>
-    </div>
-
-    <div class="total">
-      Total:
-      Rp ${total.toLocaleString("id-ID")}
-    </div>
-  `;
-
-
-  document.getElementById(
-    "summaryContent"
-  ).innerHTML = html;
-
-
-  document.getElementById(
-    "bookingCard"
-  ).classList.add("hidden");
-
-
-  document.getElementById(
-    "summaryCard"
-  ).classList.remove("hidden");
-
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-}
-
-
-/* =====================================
-   KEMBALI
-===================================== */
-
-function kembaliKeJadwal() {
-
-  document.getElementById(
-    "bookingCard"
-  ).classList.add("hidden");
-
-  document.getElementById(
-    "searchCard"
-  ).classList.remove("hidden");
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-}
-
-
-function kembaliKeBooking() {
-
-  document.getElementById(
-    "summaryCard"
-  ).classList.add("hidden");
-
-  document.getElementById(
-    "bookingCard"
-  ).classList.remove("hidden");
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-}
-
-
-/* =====================================
-   PEMBAYARAN
-===================================== */
-
-function lanjutPembayaran() {
-
-  alert(
-    "Tahap pembayaran online akan kita aktifkan berikutnya."
-  );
-}
-
-
-/* =====================================
-   MULAI
-===================================== */
-
-loadRoutes();
-
-</script>
-
-</body>
-</html>
+/
