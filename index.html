@@ -22,8 +22,15 @@ header{
   text-align:center;
 }
 
-header h1{margin:0;font-size:26px}
-header p{margin:8px 0 0;opacity:.9}
+header h1{
+  margin:0;
+  font-size:26px;
+}
+
+header p{
+  margin:8px 0 0;
+  opacity:.9;
+}
 
 .container{
   max-width:600px;
@@ -46,14 +53,17 @@ label{
   font-weight:bold;
 }
 
-select,input,button{
+select,
+input,
+button{
   width:100%;
   padding:13px;
   border-radius:10px;
   font-size:16px;
 }
 
-select,input{
+select,
+input{
   border:1px solid #d5dbe5;
   background:white;
 }
@@ -64,6 +74,11 @@ button{
   background:#0b7a75;
   color:white;
   font-weight:bold;
+  cursor:pointer;
+}
+
+button:active{
+  transform:scale(.98);
 }
 
 .secondary{
@@ -71,7 +86,9 @@ button{
   color:#172033;
 }
 
-.message{margin-top:15px}
+.message{
+  margin-top:15px;
+}
 
 .error{
   background:#ffe7e7;
@@ -92,6 +109,11 @@ button{
   border-radius:14px;
   padding:16px;
   margin-top:12px;
+  background:white;
+}
+
+.schedule strong{
+  font-size:18px;
 }
 
 .price{
@@ -134,7 +156,9 @@ button{
   margin:18px 0;
 }
 
-.hidden{display:none}
+.hidden{
+  display:none;
+}
 </style>
 </head>
 
@@ -147,18 +171,21 @@ button{
 
 <div class="container">
 
-<!-- CARI JADWAL -->
+<!-- =========================
+CARI JADWAL
+========================= -->
+
 <div class="card" id="searchCard">
 
 <h2>Cari Jadwal</h2>
 
-<label>Tujuan</label>
+<label for="destination">Tujuan</label>
 
 <select id="destination">
 <option value="">Pilih tujuan</option>
 </select>
 
-<label>Tanggal</label>
+<label for="date">Tanggal</label>
 
 <input
 type="date"
@@ -183,14 +210,19 @@ Cari Jadwal
 </div>
 
 
-<!-- BOOKING -->
+<!-- =========================
+BOOKING
+========================= -->
+
 <div class="card hidden" id="bookingCard">
 
 <h2>Data Penumpang</h2>
 
 <div id="bookingInfo"></div>
 
-<label>Nama Pemesan</label>
+<label for="customerName">
+Nama Pemesan
+</label>
 
 <input
 type="text"
@@ -198,7 +230,9 @@ id="customerName"
 placeholder="Nama pemesan"
 >
 
-<label>Nomor WhatsApp Pemesan</label>
+<label for="customerPhone">
+Nomor WhatsApp Pemesan
+</label>
 
 <input
 type="tel"
@@ -206,7 +240,9 @@ id="customerPhone"
 placeholder="Contoh: 08123456789"
 >
 
-<label>Email (opsional)</label>
+<label for="customerEmail">
+Email (opsional)
+</label>
 
 <input
 type="email"
@@ -214,10 +250,25 @@ id="customerEmail"
 placeholder="nama@email.com"
 >
 
-<label>Jumlah Penumpang</label>
+<label for="passengerCount">
+Jumlah Penumpang
+</label>
 
-<select id="passengerCount" onchange="buatPenumpang()">
+<select
+id="passengerCount"
+onchange="buatPenumpang()"
+>
 <option value="">Pilih jumlah</option>
+<option value="1">1 Penumpang</option>
+<option value="2">2 Penumpang</option>
+<option value="3">3 Penumpang</option>
+<option value="4">4 Penumpang</option>
+<option value="5">5 Penumpang</option>
+<option value="6">6 Penumpang</option>
+<option value="7">7 Penumpang</option>
+<option value="8">8 Penumpang</option>
+<option value="9">9 Penumpang</option>
+<option value="10">10 Penumpang</option>
 </select>
 
 <div id="passengerList"></div>
@@ -240,7 +291,10 @@ Kembali
 </div>
 
 
-<!-- BERHASIL -->
+<!-- =========================
+BERHASIL
+========================= -->
+
 <div class="card hidden" id="successCard">
 
 <h2>Booking Berhasil 🎉</h2>
@@ -274,6 +328,11 @@ SUPABASE
 const SUPABASE_URL =
 "https://iymqjdfeadmqvxjanndq.supabase.co";
 
+/*
+  PENTING:
+  Pertahankan SUPABASE_KEY yang sekarang
+  sudah ada di GitHub kamu.
+*/
 const SUPABASE_KEY =
 "sb_publishable__ihz_ZnsNjw8YxZyMA-eeg_TQQlWF89";
 
@@ -283,7 +342,7 @@ async function supabase(path, options={}){
   const response = await fetch(
     SUPABASE_URL + "/rest/v1/" + path,
     {
-      method:options.method || "GET",
+      method: options.method || "GET",
 
       headers:{
         "apikey":SUPABASE_KEY,
@@ -299,7 +358,9 @@ async function supabase(path, options={}){
   const text = await response.text();
 
   if(!response.ok){
-    console.error(text);
+
+    console.error("Supabase error:",text);
+
     throw new Error(text);
   }
 
@@ -308,11 +369,18 @@ async function supabase(path, options={}){
 
 
 /* ===============================
-LOAD TUJUAN
-Mengambil langsung dari schedules
+DATA SCHEDULE TERPILIH
 ================================ */
 
-  async function loadRoutes(){
+let selectedSchedule = null;
+
+
+/* ===============================
+LOAD TUJUAN
+DARI TABLE ROUTES
+================================ */
+
+async function loadRoutes(){
 
   const destination =
     document.getElementById("destination");
@@ -320,7 +388,7 @@ Mengambil langsung dari schedules
   try{
 
     const routes = await supabase(
-      "routes?origin=eq.Dumai&active=eq.true&select=id,destination"
+      "routes?origin=eq.Dumai&active=eq.true&select=id,destination&order=destination"
     );
 
     destination.innerHTML =
@@ -331,7 +399,8 @@ Mengambil langsung dari schedules
       const option =
         document.createElement("option");
 
-      option.value = route.destination;
+      option.value =
+        route.destination;
 
       option.textContent =
         "Dumai → " + route.destination;
@@ -397,27 +466,64 @@ async function cariJadwal(){
 
   try{
 
+    /*
+      Cari route terlebih dahulu.
+      Karena schedules menggunakan route_id,
+      bukan destination.
+    */
+
+    const routes = await supabase(
+      "routes?origin=eq.Dumai&active=eq.true&select=id,destination"
+    );
+
+
+    const selectedRoute =
+      routes.find(
+        route => route.destination === destination
+      );
+
+
+    if(!selectedRoute){
+
+      message.innerHTML =
+      '<div class="error">Rute tidak ditemukan.</div>';
+
+      return;
+    }
+
+
+    /*
+      Cari jadwal berdasarkan route_id.
+    */
+
     const schedules = await supabase(
       "schedules?departure_date=eq." +
       encodeURIComponent(date) +
-      "&destination=eq." +
-      encodeURIComponent(destination) +
+
+      "&route_id=eq." +
+      encodeURIComponent(selectedRoute.id) +
+
       "&status=eq.available" +
-      "&select=id,route_id,destination,departure_date,departure_time,price,available_seats,status"
+
+      "&select=id,route_id,vessel_id,departure_date,departure_time,price,available_seats,status"
     );
 
 
     message.innerHTML="";
-    results.style.display="block";
 
 
     if(!schedules.length){
 
+      results.style.display="block";
+
       list.innerHTML =
-      "<p>Tidak ada jadwal pada tanggal tersebut.</p>";
+      '<p>Tidak ada jadwal pada tanggal tersebut.</p>';
 
       return;
     }
+
+
+    results.style.display="block";
 
 
     schedules.forEach(schedule=>{
@@ -428,10 +534,20 @@ async function cariJadwal(){
       : "-";
 
 
-      const price =
-      Number(schedule.price)
-      .toLocaleString("id-ID");
+      const priceNumber =
+      Number(schedule.price);
 
+
+      const price =
+      priceNumber.toLocaleString("id-ID");
+
+
+      /*
+        Untuk sementara tampilkan available_seats
+        dari schedule.
+        Nanti kita sambungkan ke fungsi
+        get_available_seats().
+      */
 
       const seats =
       schedule.available_seats == null
@@ -448,20 +564,402 @@ async function cariJadwal(){
       div.innerHTML=`
 
         <strong>
-        Dumai → ${schedule.destination}
+          Dumai → ${destination}
         </strong>
 
         <p>
-        <span class="small">Tanggal</span><br>
-        ${schedule.departure_date}
+          <span class="small">
+            Tanggal
+          </span><br>
+          ${schedule.departure_date}
         </p>
 
         <p>
-        <span class="small">Jam berangkat</span><br>
-        ${time}
+          <span class="small">
+            Jam berangkat
+          </span><br>
+          ${time}
         </p>
 
         <p>
-        <span class="small">Kursi tersedia</span><br>
-        ${seats}
-        </
+          <span class="small">
+            Kursi tersedia
+          </span><br>
+          ${seats}
+        </p>
+
+        <div class="price">
+          Rp ${price}
+        </div>
+
+        <button
+          onclick='mulaiBooking(${JSON.stringify(schedule)})'
+        >
+          Lanjut Booking
+        </button>
+
+      `;
+
+
+      list.appendChild(div);
+
+    });
+
+  }catch(error){
+
+    console.error(error);
+
+    message.innerHTML =
+    '<div class="error">Gagal mengambil jadwal. Silakan coba lagi.</div>';
+  }
+}
+
+
+/* ===============================
+MULAI BOOKING
+================================ */
+
+function mulaiBooking(schedule){
+
+  selectedSchedule = schedule;
+
+
+  document.getElementById("searchCard")
+  .classList.add("hidden");
+
+
+  document.getElementById("bookingCard")
+  .classList.remove("hidden");
+
+
+  const time =
+  schedule.departure_time
+  ? schedule.departure_time.substring(0,5)
+  : "-";
+
+
+  const price =
+  Number(schedule.price)
+  .toLocaleString("id-ID");
+
+
+  document.getElementById("bookingInfo").innerHTML = `
+
+    <div class="success">
+
+      <strong>
+        Dumai → ${document.getElementById("destination").value}
+      </strong>
+
+      <br><br>
+
+      Tanggal:
+      ${schedule.departure_date}
+
+      <br>
+
+      Jam:
+      ${time}
+
+      <br>
+
+      Harga:
+      Rp ${price} / penumpang
+
+    </div>
+
+  `;
+
+
+  document.getElementById("passengerCount").value="";
+
+  document.getElementById("passengerList").innerHTML="";
+
+  document.getElementById("totalBox").innerHTML="";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+/* ===============================
+BUAT FORM PENUMPANG
+================================ */
+
+function buatPenumpang(){
+
+  const count =
+  Number(
+    document.getElementById("passengerCount").value
+  );
+
+
+  const list =
+  document.getElementById("passengerList");
+
+
+  list.innerHTML="";
+
+
+  if(!count || !selectedSchedule){
+
+    document.getElementById("totalBox").innerHTML="";
+
+    return;
+  }
+
+
+  for(let i=1;i<=count;i++){
+
+    const div =
+    document.createElement("div");
+
+    div.className="passenger";
+
+
+    div.innerHTML=`
+
+      <h4>
+        Penumpang ${i}
+      </h4>
+
+      <label>
+        Nama Lengkap
+      </label>
+
+      <input
+        type="text"
+        class="passenger-name"
+        placeholder="Nama lengkap penumpang"
+      >
+
+      <label>
+        Identitas
+      </label>
+
+      <select class="passenger-id-type">
+
+        <option value="">
+          Pilih identitas
+        </option>
+
+        <option value="KTP">
+          KTP
+        </option>
+
+        <option value="PASSPORT">
+          Passport
+        </option>
+
+        <option value="OTHER">
+          Lainnya
+        </option>
+
+      </select>
+
+      <label>
+        Nomor Identitas
+      </label>
+
+      <input
+        type="text"
+        class="passenger-id-number"
+        placeholder="Nomor identitas"
+      >
+
+    `;
+
+
+    list.appendChild(div);
+
+  }
+
+
+  const total =
+  Number(selectedSchedule.price) * count;
+
+
+  document.getElementById("totalBox").innerHTML = `
+
+    <div class="total">
+      Total:
+      Rp ${total.toLocaleString("id-ID")}
+    </div>
+
+  `;
+}
+
+
+/* ===============================
+KEMBALI
+================================ */
+
+function kembali(){
+
+  document.getElementById("bookingCard")
+  .classList.add("hidden");
+
+
+  document.getElementById("searchCard")
+  .classList.remove("hidden");
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+/* ===============================
+KONFIRMASI BOOKING
+================================ */
+
+function simpanBooking(){
+
+  const name =
+  document.getElementById("customerName").value.trim();
+
+  const phone =
+  document.getElementById("customerPhone").value.trim();
+
+  const email =
+  document.getElementById("customerEmail").value.trim();
+
+  const count =
+  Number(
+    document.getElementById("passengerCount").value
+  );
+
+
+  const message =
+  document.getElementById("bookingMessage");
+
+
+  if(!name || !phone){
+
+    message.innerHTML =
+    '<div class="error">Nama pemesan dan nomor WhatsApp wajib diisi.</div>';
+
+    return;
+  }
+
+
+  if(!count){
+
+    message.innerHTML =
+    '<div class="error">Pilih jumlah penumpang.</div>';
+
+    return;
+  }
+
+
+  const passengerNames =
+  [...document.querySelectorAll(".passenger-name")];
+
+  const passengerIdTypes =
+  [...document.querySelectorAll(".passenger-id-type")];
+
+  const passengerIdNumbers =
+  [...document.querySelectorAll(".passenger-id-number")];
+
+
+  for(let i=0;i<count;i++){
+
+    if(
+      !passengerNames[i].value.trim() ||
+      !passengerIdTypes[i].value ||
+      !passengerIdNumbers[i].value.trim()
+    ){
+
+      message.innerHTML =
+      '<div class="error">Lengkapi semua data penumpang terlebih dahulu.</div>';
+
+      return;
+    }
+
+  }
+
+
+  /*
+    BELUM MENYIMPAN KE DATABASE.
+
+    Untuk keamanan, proses booking asli nanti
+    harus melalui backend / Supabase Edge Function
+    dan pembayaran Midtrans.
+
+    Untuk sekarang kita hanya menampilkan
+    data konfirmasi.
+  */
+
+
+  const bookingCode =
+  "BJ" +
+  Date.now()
+  .toString()
+  .slice(-8);
+
+
+  const total =
+  Number(selectedSchedule.price) * count;
+
+
+  document.getElementById("bookingCard")
+  .classList.add("hidden");
+
+
+  document.getElementById("successCard")
+  .classList.remove("hidden");
+
+
+  document.getElementById("bookingCode").textContent =
+  bookingCode;
+
+
+  document.getElementById("successDetail").innerHTML = `
+
+    <p>
+      <strong>Rute:</strong>
+      Dumai →
+      ${document.getElementById("destination").value}
+    </p>
+
+    <p>
+      <strong>Tanggal:</strong>
+      ${selectedSchedule.departure_date}
+    </p>
+
+    <p>
+      <strong>Jumlah penumpang:</strong>
+      ${count}
+    </p>
+
+    <p>
+      <strong>Total:</strong>
+      Rp ${total.toLocaleString("id-ID")}
+    </p>
+
+    <div class="error">
+      <strong>Catatan:</strong><br>
+      Ini masih tahap tampilan booking.
+      Pembayaran dan penyimpanan booking ke database
+      akan kita aktifkan pada tahap berikutnya.
+    </div>
+
+  `;
+
+}
+
+
+/* ===============================
+JALANKAN
+================================ */
+
+loadRoutes();
+
+</script>
+
+</body>
+</html>
