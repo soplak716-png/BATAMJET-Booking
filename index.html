@@ -840,7 +840,10 @@ async function simpanBooking(){
   if(!selectedSchedule){
 
     message.innerHTML =
-      '<div class="error">Jadwal belum dipilih.</div>';
+  '<div class="error">' +
+  'Booking gagal:<br><br>' +
+  error.message +
+  '</div>';
 
     return;
   }
