@@ -1,134 +1,173 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Batam Jet Booking</title>
+<title>Batam Jet Booking</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #172033;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #172033;
+}
 
-    header {
-      background: #0b7a75;
-      color: white;
-      padding: 24px 20px;
-      text-align: center;
-    }
+header {
+  background: #0b7a75;
+  color: white;
+  padding: 24px 20px;
+  text-align: center;
+}
 
-    header h1 {
-      margin: 0;
-      font-size: 26px;
-    }
+header h1 {
+  margin: 0;
+  font-size: 26px;
+}
 
-    header p {
-      margin: 8px 0 0;
-      opacity: 0.9;
-    }
+header p {
+  margin: 8px 0 0;
+  opacity: .9;
+}
 
-    .container {
-      max-width: 600px;
-      margin: 25px auto;
-      padding: 0 16px;
-    }
+.container {
+  max-width: 600px;
+  margin: 25px auto;
+  padding: 0 16px;
+}
 
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
-    }
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.08);
+  margin-bottom: 18px;
+}
 
-    label {
-      display: block;
-      margin-top: 15px;
-      margin-bottom: 7px;
-      font-weight: bold;
-    }
+h2 {
+  margin-top: 0;
+}
 
-    select,
-    input,
-    button {
-      width: 100%;
-      padding: 13px;
-      border-radius: 10px;
-      font-size: 16px;
-    }
+label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 7px;
+  font-weight: bold;
+}
 
-    select,
-    input {
-      border: 1px solid #d5dbe5;
-      background: white;
-    }
+input,
+select,
+button {
+  width: 100%;
+  padding: 13px;
+  border-radius: 10px;
+  font-size: 16px;
+}
 
-    button {
-      margin-top: 20px;
-      border: none;
-      background: #0b7a75;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
+input,
+select {
+  border: 1px solid #d5dbe5;
+  background: white;
+}
 
-    button:active {
-      transform: scale(0.98);
-    }
+button {
+  margin-top: 20px;
+  border: none;
+  background: #0b7a75;
+  color: white;
+  font-weight: bold;
+}
 
-    #message {
-      margin-top: 15px;
-    }
+button.secondary {
+  background: #e8eef2;
+  color: #172033;
+}
 
-    .error {
-      background: #ffe7e7;
-      color: #b00020;
-      padding: 12px;
-      border-radius: 10px;
-    }
+button:active {
+  transform: scale(.98);
+}
 
-    .success {
-      background: #e7f8ef;
-      color: #087443;
-      padding: 12px;
-      border-radius: 10px;
-    }
+.hidden {
+  display: none !important;
+}
 
-    #results {
-      margin-top: 20px;
-    }
+.schedule {
+  border: 1px solid #e0e5ec;
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 12px;
+}
 
-    .schedule {
-      border: 1px solid #e0e5ec;
-      border-radius: 14px;
-      padding: 16px;
-      margin-top: 12px;
-      background: #fff;
-    }
+.schedule strong {
+  font-size: 18px;
+}
 
-    .schedule strong {
-      font-size: 18px;
-    }
+.price {
+  font-size: 22px;
+  font-weight: bold;
+  color: #0b7a75;
+  margin-top: 10px;
+}
 
-    .price {
-      font-size: 22px;
-      font-weight: bold;
-      color: #0b7a75;
-      margin-top: 10px;
-    }
+.small {
+  color: #667085;
+  font-size: 14px;
+}
 
-    .small {
-      color: #667085;
-      font-size: 14px;
-    }
-  </style>
+.message {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.error {
+  background: #ffe7e7;
+  color: #b00020;
+}
+
+.success {
+  background: #e7f8ef;
+  color: #087443;
+}
+
+.passenger {
+  border: 1px solid #e0e5ec;
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 15px;
+}
+
+.passenger h3 {
+  margin-top: 0;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.total {
+  font-size: 23px;
+  font-weight: bold;
+  color: #0b7a75;
+  margin-top: 15px;
+}
+
+.notice {
+  background: #f0f7f7;
+  padding: 13px;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+</style>
 </head>
 
 <body>
@@ -140,48 +179,135 @@
 
 <div class="container">
 
-  <div class="card">
+<!-- =========================
+     CARI JADWAL
+========================= -->
 
-    <h2>Cari Jadwal</h2>
+<div class="card" id="searchCard">
 
-    <label for="destination">Tujuan</label>
+<h2>Cari Jadwal</h2>
 
-    <select id="destination">
-      <option value="">Pilih tujuan</option>
-    </select>
+<label for="destination">Tujuan</label>
 
-    <label for="date">Tanggal</label>
+<select id="destination">
+  <option value="">Pilih tujuan</option>
+</select>
 
-    <input
-      type="date"
-      id="date"
-      value="2026-10-05"
-    >
+<label for="date">Tanggal</label>
 
-    <button onclick="cariJadwal()">
-      Cari Jadwal
-    </button>
+<input
+  type="date"
+  id="date"
+  value="2026-10-05"
+>
 
-    <div id="message"></div>
+<button onclick="cariJadwal()">
+  Cari Jadwal
+</button>
 
-    <div id="results" style="display:none;">
-      <h3>Jadwal Tersedia</h3>
-      <div id="scheduleList"></div>
-    </div>
+<div id="message"></div>
 
-  </div>
+<div id="results" class="hidden">
+
+<h3>Jadwal Tersedia</h3>
+
+<div id="scheduleList"></div>
 
 </div>
 
+</div>
+
+
+<!-- =========================
+     FORM BOOKING
+========================= -->
+
+<div class="card hidden" id="bookingCard">
+
+<h2>Data Penumpang</h2>
+
+<div id="selectedSchedule"></div>
+
+<label for="passengerCount">
+Jumlah Penumpang
+</label>
+
+<select id="passengerCount" onchange="buatFormPenumpang()">
+  <option value="">Pilih jumlah</option>
+</select>
+
+<div id="passengerForms"></div>
+
+<label for="phone">
+Nomor WhatsApp Pemesan
+</label>
+
+<input
+  type="tel"
+  id="phone"
+  placeholder="Contoh: 08123456789"
+>
+
+<button onclick="lihatRingkasan()">
+  Lihat Ringkasan
+</button>
+
+<button
+  class="secondary"
+  onclick="kembaliKeJadwal()"
+>
+  Kembali
+</button>
+
+</div>
+
+
+<!-- =========================
+     RINGKASAN
+========================= -->
+
+<div class="card hidden" id="summaryCard">
+
+<h2>Ringkasan Pesanan</h2>
+
+<div id="summaryContent"></div>
+
+<div class="notice">
+  Periksa kembali data penumpang sebelum melanjutkan.
+</div>
+
+<button onclick="lanjutPembayaran()">
+  Lanjut ke Pembayaran
+</button>
+
+<button
+  class="secondary"
+  onclick="kembaliKeBooking()"
+>
+  Ubah Data
+</button>
+
+</div>
+
+</div>
+
+
 <script>
 
-const SUPABASE_URL = "https://iymqjdfeadmqvxjanndq.supabase.co";
+/* =====================================
+   SUPABASE
+===================================== */
+
+const SUPABASE_URL =
+  "https://iymqjdfeadmqvxjanndq.supabase.co";
 
 /*
-  MASUKKAN PUBLISHABLE KEY SUPABASE KAMU
-  yang sebelumnya sudah kamu gunakan.
+  PENTING:
+  Pertahankan Publishable Key yang sekarang
+  sudah ada di file kamu.
 */
-const SUPABASE_KEY = "sb_publishable__ihz_ZnsNjw8YxZyMA-eeg_TQQlWF89";
+const SUPABASE_KEY =
+  "sb_publishable__ihz_ZnsNjw8YxZyMA-eeg_TQQlWF89";
 
 
 async function supabase(path) {
@@ -192,7 +318,8 @@ async function supabase(path) {
       method: "GET",
       headers: {
         "apikey": SUPABASE_KEY,
-        "Authorization": "Bearer " + SUPABASE_KEY
+        "Authorization":
+          "Bearer " + SUPABASE_KEY
       }
     }
   );
@@ -200,134 +327,166 @@ async function supabase(path) {
   const text = await response.text();
 
   if (!response.ok) {
-    console.error("Supabase error:", text);
+
+    console.error(
+      "Supabase error:",
+      text
+    );
+
     throw new Error(text);
   }
 
-  return text ? JSON.parse(text) : [];
+  return text
+    ? JSON.parse(text)
+    : [];
 }
 
 
-/* LOAD TUJUAN */
+/* =====================================
+   DATA GLOBAL
+===================================== */
+
+let selectedSchedule = null;
+
+let selectedDestination = "";
+
+let selectedDate = "";
+
+let availableSeats = 0;
+
+
+/* =====================================
+   LOAD TUJUAN
+===================================== */
 
 async function loadRoutes() {
 
   const destination =
-    document.getElementById("destination");
+    document.getElementById(
+      "destination"
+    );
 
   try {
 
-    const routes = await supabase(
-      "routes?origin=eq.Dumai&active=eq.true&select=id,destination&order=destination"
-    );
+    const routes =
+      await supabase(
+        "routes?origin=eq.Dumai&active=eq.true&select=id,destination&order=destination"
+      );
 
     routes.forEach(route => {
 
       const option =
         document.createElement("option");
 
-      option.value = route.destination;
+      option.value =
+        route.destination;
 
       option.textContent =
-        "Dumai → " + route.destination;
+        "Dumai → " +
+        route.destination;
 
       destination.appendChild(option);
 
     });
 
-  } catch (error) {
+  } catch(error) {
 
     console.error(error);
 
-    document.getElementById("message").innerHTML =
-      '<div class="error">Gagal mengambil daftar tujuan.</div>';
-
+    document.getElementById(
+      "message"
+    ).innerHTML =
+      '<div class="message error">' +
+      'Gagal mengambil tujuan.' +
+      '</div>';
   }
-
 }
 
 
-/* CARI JADWAL */
+/* =====================================
+   CARI JADWAL
+===================================== */
 
 async function cariJadwal() {
 
   const destination =
-    document.getElementById("destination").value;
+    document.getElementById(
+      "destination"
+    ).value;
 
   const date =
-    document.getElementById("date").value;
+    document.getElementById(
+      "date"
+    ).value;
 
   const message =
-    document.getElementById("message");
+    document.getElementById(
+      "message"
+    );
 
   const results =
-    document.getElementById("results");
+    document.getElementById(
+      "results"
+    );
 
   const list =
-    document.getElementById("scheduleList");
+    document.getElementById(
+      "scheduleList"
+    );
 
 
   if (!destination || !date) {
 
     message.innerHTML =
-      '<div class="error">Pilih tujuan dan tanggal terlebih dahulu.</div>';
+      '<div class="message error">' +
+      'Pilih tujuan dan tanggal terlebih dahulu.' +
+      '</div>';
 
     return;
   }
 
 
   message.innerHTML =
-    '<div class="success">Mencari jadwal...</div>';
+    '<div class="message success">' +
+    'Mencari jadwal...' +
+    '</div>';
 
-  results.style.display = "none";
+  results.classList.add("hidden");
 
   list.innerHTML = "";
 
 
   try {
 
-    /*
-      Ambil semua jadwal pada tanggal yang dipilih.
-    */
-
-    const schedules = await supabase(
-      "schedules?departure_date=eq." +
-      encodeURIComponent(date) +
-      "&status=eq.available&select=id,route_id,departure_date,departure_time,price,available_seats,status"
-    );
+    const schedules =
+      await supabase(
+        "schedules?departure_date=eq." +
+        encodeURIComponent(date) +
+        "&status=eq.available&select=id,route_id,departure_date,departure_time,price,available_seats,status,vessel_id"
+      );
 
 
-    /*
-      Ambil semua rute aktif dari Dumai.
-    */
+    const routes =
+      await supabase(
+        "routes?origin=eq.Dumai&active=eq.true&select=id,destination"
+      );
 
-    const routes = await supabase(
-      "routes?origin=eq.Dumai&active=eq.true&select=id,destination"
-    );
-
-
-    /*
-      Cari route_id berdasarkan tujuan.
-    */
 
     const selectedRoute =
       routes.find(
-        route => route.destination === destination
+        route =>
+          route.destination ===
+          destination
       );
 
 
     if (!selectedRoute) {
 
       throw new Error(
-        "Rute tujuan tidak ditemukan."
+        "Rute tidak ditemukan."
       );
-
     }
 
-
-    /*
-      Cari jadwal yang route_id-nya sama.
-    */
 
     const schedule =
       schedules.find(
@@ -337,30 +496,55 @@ async function cariJadwal() {
       );
 
 
-    message.innerHTML = "";
-
-    results.style.display = "block";
-
-
     if (!schedule) {
 
-      list.innerHTML =
-        "<p>Tidak ada jadwal pada tanggal tersebut.</p>";
+      message.innerHTML =
+        '<div class="message error">' +
+        'Tidak ada jadwal pada tanggal tersebut.' +
+        '</div>';
 
       return;
-
     }
+
+
+    selectedSchedule =
+      schedule;
+
+    selectedDestination =
+      destination;
+
+    selectedDate =
+      date;
+
+
+    /*
+      Gunakan kapasitas 387 untuk MV 12
+      yang sudah kita pasang di database.
+    */
+
+    availableSeats =
+      Number(
+        schedule.available_seats
+      );
 
 
     const time =
       schedule.departure_time
-        ? schedule.departure_time.substring(0, 5)
+        ? schedule.departure_time
+            .substring(0,5)
         : "-";
 
 
     const price =
       Number(schedule.price)
         .toLocaleString("id-ID");
+
+
+    message.innerHTML = "";
+
+    results.classList.remove(
+      "hidden"
+    );
 
 
     list.innerHTML = `
@@ -372,52 +556,531 @@ async function cariJadwal() {
         </strong>
 
         <p>
-          <span class="small">Operator</span><br>
-          Batam Jet
+          <span class="small">
+            Operator
+          </span><br>
+          Dumai Line
         </p>
 
         <p>
-          <span class="small">Tanggal</span><br>
-          ${schedule.departure_date}
+          <span class="small">
+            Kapal
+          </span><br>
+          MV Dumai Line 12
         </p>
 
         <p>
-          <span class="small">Jam berangkat</span><br>
+          <span class="small">
+            Tanggal
+          </span><br>
+          ${date}
+        </p>
+
+        <p>
+          <span class="small">
+            Berangkat
+          </span><br>
           ${time}
+        </p>
+
+        <p>
+          <span class="small">
+            Kursi tersedia
+          </span><br>
+          ${availableSeats}
         </p>
 
         <div class="price">
           Rp ${price}
         </div>
 
-        <button onclick="booking()">
+        <button
+          onclick="mulaiBooking()"
+        >
           Lanjut Booking
         </button>
 
       </div>
-
     `;
+    
 
-  } catch (error) {
+  } catch(error) {
 
     console.error(error);
 
     message.innerHTML =
-      '<div class="error">Gagal mengambil jadwal. Silakan coba lagi.</div>';
+      '<div class="message error">' +
+      'Gagal mengambil jadwal.' +
+      '</div>';
+  }
+}
 
+
+/* =====================================
+   MULAI BOOKING
+===================================== */
+
+function mulaiBooking() {
+
+  if (!selectedSchedule) {
+
+    alert(
+      "Silakan pilih jadwal terlebih dahulu."
+    );
+
+    return;
   }
 
+
+  document.getElementById(
+    "searchCard"
+  ).classList.add("hidden");
+
+
+  document.getElementById(
+    "bookingCard"
+  ).classList.remove("hidden");
+
+
+  document.getElementById(
+    "summaryCard"
+  ).classList.add("hidden");
+
+
+  const price =
+    Number(
+      selectedSchedule.price
+    ).toLocaleString("id-ID");
+
+
+  document.getElementById(
+    "selectedSchedule"
+  ).innerHTML = `
+
+    <div class="notice">
+
+      <strong>
+        Dumai → ${selectedDestination}
+      </strong>
+
+      <br>
+
+      ${selectedDate}
+      •
+      ${selectedSchedule.departure_time.substring(0,5)}
+
+      <br>
+
+      MV Dumai Line 12
+
+      <br><br>
+
+      Harga per penumpang:
+      <strong>
+        Rp ${price}
+      </strong>
+
+      <br>
+
+      Kursi tersedia:
+      <strong>
+        ${availableSeats}
+      </strong>
+
+    </div>
+  `;
+
+
+  const count =
+    document.getElementById(
+      "passengerCount"
+    );
+
+  count.innerHTML =
+    '<option value="">Pilih jumlah</option>';
+
+
+  const max =
+    Math.min(
+      availableSeats,
+      10
+    );
+
+
+  for (
+    let i = 1;
+    i <= max;
+    i++
+  ) {
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+    option.value = i;
+
+    option.textContent =
+      i +
+      " penumpang";
+
+    count.appendChild(
+      option
+    );
+  }
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
 
 
-function booking() {
+/* =====================================
+   BUAT FORM PENUMPANG
+===================================== */
 
-  alert(
-    "Form data penumpang akan kita aktifkan pada tahap berikutnya."
+function buatFormPenumpang() {
+
+  const count =
+    Number(
+      document.getElementById(
+        "passengerCount"
+      ).value
+    );
+
+  const container =
+    document.getElementById(
+      "passengerForms"
+    );
+
+
+  container.innerHTML = "";
+
+
+  if (!count) return;
+
+
+  for (
+    let i = 1;
+    i <= count;
+    i++
+  ) {
+
+    container.innerHTML += `
+
+      <div class="passenger">
+
+        <h3>
+          Penumpang ${i}
+        </h3>
+
+        <label>
+          Nama Lengkap
+        </label>
+
+        <input
+          type="text"
+          id="name_${i}"
+          placeholder="Nama sesuai identitas"
+        >
+
+
+        <label>
+          Jenis Identitas
+        </label>
+
+        <select id="identity_${i}">
+
+          <option value="">
+            Pilih identitas
+          </option>
+
+          <option value="KTP">
+            KTP
+          </option>
+
+          <option value="PASSPORT">
+            Passport
+          </option>
+
+          <option value="OTHER">
+            Lainnya
+          </option>
+
+        </select>
+
+
+        <label>
+          Nomor Identitas
+        </label>
+
+        <input
+          type="text"
+          id="identity_number_${i}"
+          placeholder="Nomor identitas"
+        >
+
+      </div>
+    `;
+  }
+}
+
+
+/* =====================================
+   RINGKASAN
+===================================== */
+
+function lihatRingkasan() {
+
+  const count =
+    Number(
+      document.getElementById(
+        "passengerCount"
+      ).value
+    );
+
+  const phone =
+    document.getElementById(
+      "phone"
+    ).value.trim();
+
+
+  if (!count) {
+
+    alert(
+      "Pilih jumlah penumpang."
+    );
+
+    return;
+  }
+
+
+  if (!phone) {
+
+    alert(
+      "Masukkan nomor WhatsApp pemesan."
+    );
+
+    return;
+  }
+
+
+  const passengers = [];
+
+
+  for (
+    let i = 1;
+    i <= count;
+    i++
+  ) {
+
+    const name =
+      document.getElementById(
+        "name_" + i
+      ).value.trim();
+
+    const identity =
+      document.getElementById(
+        "identity_" + i
+      ).value;
+
+    const identityNumber =
+      document.getElementById(
+        "identity_number_" + i
+      ).value.trim();
+
+
+    if (
+      !name ||
+      !identity ||
+      !identityNumber
+    ) {
+
+      alert(
+        "Lengkapi semua data Penumpang " +
+        i +
+        "."
+      );
+
+      return;
+    }
+
+
+    passengers.push({
+      name,
+      identity,
+      identityNumber
+    });
+  }
+
+
+  const price =
+    Number(
+      selectedSchedule.price
+    );
+
+
+  const total =
+    price * count;
+
+
+  let html = `
+
+    <div class="summary-row">
+      <span>Rute</span>
+      <strong>
+        Dumai → ${selectedDestination}
+      </strong>
+    </div>
+
+    <div class="summary-row">
+      <span>Tanggal</span>
+      <strong>
+        ${selectedDate}
+      </strong>
+    </div>
+
+    <div class="summary-row">
+      <span>Jam</span>
+      <strong>
+        ${selectedSchedule.departure_time.substring(0,5)}
+      </strong>
+    </div>
+
+    <div class="summary-row">
+      <span>Kapal</span>
+      <strong>
+        MV Dumai Line 12
+      </strong>
+    </div>
+
+    <div class="summary-row">
+      <span>Jumlah</span>
+      <strong>
+        ${count} penumpang
+      </strong>
+    </div>
+
+    <h3>Penumpang</h3>
+  `;
+
+
+  passengers.forEach(
+    (passenger, index) => {
+
+      html += `
+
+        <div class="notice">
+
+          <strong>
+            ${index + 1}.
+            ${passenger.name}
+          </strong>
+
+          <br>
+
+          ${passenger.identity}:
+          ${passenger.identityNumber}
+
+        </div>
+      `;
+    }
   );
 
+
+  html += `
+
+    <div class="summary-row">
+      <span>Harga tiket</span>
+      <strong>
+        Rp ${price.toLocaleString("id-ID")}
+      </strong>
+    </div>
+
+    <div class="total">
+      Total:
+      Rp ${total.toLocaleString("id-ID")}
+    </div>
+  `;
+
+
+  document.getElementById(
+    "summaryContent"
+  ).innerHTML = html;
+
+
+  document.getElementById(
+    "bookingCard"
+  ).classList.add("hidden");
+
+
+  document.getElementById(
+    "summaryCard"
+  ).classList.remove("hidden");
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
 
+
+/* =====================================
+   KEMBALI
+===================================== */
+
+function kembaliKeJadwal() {
+
+  document.getElementById(
+    "bookingCard"
+  ).classList.add("hidden");
+
+  document.getElementById(
+    "searchCard"
+  ).classList.remove("hidden");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+function kembaliKeBooking() {
+
+  document.getElementById(
+    "summaryCard"
+  ).classList.add("hidden");
+
+  document.getElementById(
+    "bookingCard"
+  ).classList.remove("hidden");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+/* =====================================
+   PEMBAYARAN
+===================================== */
+
+function lanjutPembayaran() {
+
+  alert(
+    "Tahap pembayaran online akan kita aktifkan berikutnya."
+  );
+}
+
+
+/* =====================================
+   MULAI
+===================================== */
 
 loadRoutes();
 
